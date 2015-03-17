@@ -37,3 +37,18 @@ JavaDoc
 [JavaDoc of nv-bluetooth](http://TakahikoKawasaki.github.io/nv-bluetooth/)
 
 
+Example
+-------
+```java
+public void onLeScan(BluetoothDevice device, int rssi, byte[] scanRecord)
+{
+    // Parse the payload of the advertising packet.
+    List<ADStructure> structures = ADPayloadParser.getInstance().parse(scanRecord);
+}
+```
+
+
+Author
+------
+
+Takahiko Kawasaki, Neo Visionaries Inc.

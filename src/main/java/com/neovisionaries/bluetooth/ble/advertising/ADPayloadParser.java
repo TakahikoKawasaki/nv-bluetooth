@@ -23,6 +23,22 @@ import java.util.List;
 import java.util.Map;
 
 
+/**
+ * Utility to parse a payload of an advertising packet. Especially,
+ * the third argument of
+ * <a href="http://developer.android.com/reference/android/bluetooth/BluetoothAdapter.LeScanCallback.html#onLeScan%28android.bluetooth.BluetoothDevice,%20int,%20byte[]%29"
+ * >onLeScan</a> method of android.<wbr>bluetooth.<wbr>BluetoothAdapter.<wbr>LeScanCallback
+ * interface.
+ *
+ * <pre style="padding: 0.5em; border: 1px solid black; margin: 1em;">
+ * public void onLeScan(BluetoothDevice device, int rssi, byte[] scanRecord)
+ * {
+ *     List&lt;ADStructure&gt; structures = ADPayloadParser.{@link #getInstance()}.{@link
+ *     #parse(byte[]) parse}(scanRecord);
+ * </pre>
+ *
+ * @author Takahiko Kawasaki
+ */
 public class ADPayloadParser
 {
     // The singleton instance.
@@ -46,6 +62,9 @@ public class ADPayloadParser
     }
 
 
+    /**
+     * Get the singleton instance.
+     */
     public static ADPayloadParser getInstance()
     {
         return sInstance;
