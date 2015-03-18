@@ -21,10 +21,10 @@ package com.neovisionaries.bluetooth.ble.advertising;
  */
 public class ADManufacturerSpecific extends ADStructure
 {
+    private static final long serialVersionUID = 1L;
     private static final String STRING_FORMAT =
         "ADManufacturerSpecific(Length=%d,Type=0x%02X,CompanyID=0x%04X)";
 
-    // Company ID
     private int mCompanyId;
 
 

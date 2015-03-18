@@ -17,7 +17,7 @@ package com.neovisionaries.bluetooth.ble.advertising;
 
 
 /**
- * An AD structure of type <i>"Flags"</i> (0x01).
+ * An AD structure of type <i>Flags</i> (0x01).
  *
  * <p>
  * The format of the AD data is described in <i>"1.3 FLAGS"</i>
@@ -29,6 +29,7 @@ package com.neovisionaries.bluetooth.ble.advertising;
  */
 public class ADFlags extends ADStructure
 {
+    private static final long serialVersionUID = 1L;
     private static final String STRING_FORMAT =
         "Flags(LimitedDiscoverable=%s,GeneralDiscoverable=%s," +
         "LegacySupported=%s,ControllerSimultaneitySupported=%s,HostSimultaneitySupported=%s)";

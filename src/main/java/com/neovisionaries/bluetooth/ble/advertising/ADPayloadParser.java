@@ -55,9 +55,21 @@ public class ADPayloadParser
         mMSBuilders = new HashMap<Integer, List<ADManufacturerSpecificBuilder>>();
         registerManufacturerSpecificBuilder(0x004C, new MS004CBuilder());
 
+        // Builder for AD structures that list UUIDs.
+        ADUUIDsBuilder uuidsBuilder = new ADUUIDsBuilder();
+
         // Builders.
         mBuilders = new HashMap<Integer, List<ADStructureBuilder>>();
         registerBuilder(0x01, new ADFlagsBuilder());
+        registerBuilder(0x02, uuidsBuilder);
+        registerBuilder(0x03, uuidsBuilder);
+        registerBuilder(0x04, uuidsBuilder);
+        registerBuilder(0x05, uuidsBuilder);
+        registerBuilder(0x06, uuidsBuilder);
+        registerBuilder(0x07, uuidsBuilder);
+        registerBuilder(0x14, uuidsBuilder);
+        registerBuilder(0x15, uuidsBuilder);
+        registerBuilder(0x1F, uuidsBuilder);
         registerBuilder(0xFF, new MSBuilder());
     }
 
@@ -183,6 +195,110 @@ public class ADPayloadParser
 
     /**
      * Parse a byte sequence as a list of AD structures.
+     *
+     * <p>
+     * Supported AD structures are as follows.
+     * </p>
+     *
+     * <table border="1" cellpadding="5" style="border-collapse: collapse;">
+     *   <thead>
+     *     <tr>
+     *       <th>Data Type Value</th>
+     *       <th>Data Type Name</th>
+     *       <th>Class</th>
+     *     </tr>
+     *   </thead>
+     *   <tbody>
+     *     <tr>
+     *       <td><code>0x01</code></td>
+     *       <td>Flags</td>
+     *       <td>{@link ADFlags}</td>
+     *     </tr>
+     *     <tr>
+     *       <td><code>0x02</code></td>
+     *       <td>Incomplete List of 16-bit Service Class UUIDs</td>
+     *       <td>{@link ADUUIDs}</td>
+     *     </tr>
+     *     <tr>
+     *       <td><code>0x03</code></td>
+     *       <td>Complete List of 16-bit Service Class UUIDs</td>
+     *       <td>{@link ADUUIDs}</td>
+     *     </tr>
+     *     <tr>
+     *       <td><code>0x04</code></td>
+     *       <td>Incomplete List of 32-bit Service Class UUIDs</td>
+     *       <td>{@link ADUUIDs}</td>
+     *     </tr>
+     *     <tr>
+     *       <td><code>0x05</code></td>
+     *       <td>Complete List of 32-bit Service Class UUIDs</td>
+     *       <td>{@link ADUUIDs}</td>
+     *     </tr>
+     *     <tr>
+     *       <td><code>0x06</code></td>
+     *       <td>Incomplete List of 128-bit Service Class UUIDs</td>
+     *       <td>{@link ADUUIDs}</td>
+     *     </tr>
+     *     <tr>
+     *       <td><code>0x07</code></td>
+     *       <td>Complete List of 128-bit Service Class UUIDs</td>
+     *       <td>{@link ADUUIDs}</td>
+     *     </tr>
+     *     <tr>
+     *       <td><code>0x14</code></td>
+     *       <td>List of 16-bit Service Solicitation UUIDs</td>
+     *       <td>{@link ADUUIDs}</td>
+     *     </tr>
+     *     <tr>
+     *       <td><code>0x15</code></td>
+     *       <td>List of 128-bit Service Solicitation UUIDs</td>
+     *       <td>{@link ADUUIDs}</td>
+     *     </tr>
+     *     <tr>
+     *       <td><code>0x1F</code></td>
+     *       <td>List of 32-bit Service Solicitation UUIDs</td>
+     *       <td>{@link ADUUIDs}</td>
+     *     </tr>
+     *     <tr>
+     *       <td><code>0xFF</code></td>
+     *       <td>Manufacturer Specific Data</td>
+     *       <td>{@link ADManufacturerSpecific}</td>
+     *     </tr>
+     *   </tbody>
+     * </table>
+     *
+     * <p>
+     * In addition, some specific Manufacturer Specific Data are supported.
+     * </p>
+     *
+     *
+     * <table border="1" cellpadding="5" style="border-collapse: collapse;">
+     *   <thead>
+     *     <tr>
+     *       <th>Data Type Value</th>
+     *       <th>Company ID</th>
+     *       <th>Company Name</th>
+     *       <th>Format</th>
+     *       <th>Class</th>
+     *     </tr>
+     *   </thead>
+     *   <tbody>
+     *     <tr>
+     *       <td><code>0xFF</code></td>
+     *       <td><code>0x004C</td>
+     *       <td>Apple, Inc.</td>
+     *       <td>iBeacon</td>
+     *       <td>{@link IBeacon}</td>
+     *     </tr>
+     *   </tbody>
+     * </table>
+     *
+     * <p>
+     * {@link #registerBuilder(int, ADStructureBuilder) registerBuilder} and
+     * {@link #registerManufacturerSpecificBuilder(int, ADManufacturerSpecificBuilder)
+     * registerManufacturerSpecificBuilder} can be used to register your
+     * customized parsers for AD structures.
+     * </p>
      *
      * @param payload
      *         A byte array containing of AD structures.

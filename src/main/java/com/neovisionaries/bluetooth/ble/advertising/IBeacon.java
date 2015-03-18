@@ -17,6 +17,7 @@ package com.neovisionaries.bluetooth.ble.advertising;
 
 
 import java.util.UUID;
+import com.neovisionaries.bluetooth.ble.util.UUIDCreator;
 
 
 /**
@@ -24,10 +25,9 @@ import java.util.UUID;
  */
 public class IBeacon extends ADManufacturerSpecific
 {
+    private static final long serialVersionUID = 1L;
     private static final String STRING_FORMAT =
         "iBeacon(UUID=%s,Major=%d,Minor=%d,Power=%d)";
-    private static final String UUID_FORMAT =
-        "%02x%02x%02x%02x-%02x%02x-%02x%02x-%02x%02x-%02x%02x%02x%02x%02x%02x";
 
     private UUID mUUID;
     private int mMajor;
@@ -201,13 +201,7 @@ public class IBeacon extends ADManufacturerSpecific
 
     private UUID buildUUID(byte[] data)
     {
-        String uuid = String.format(UUID_FORMAT,
-            data[ 4] & 0xFF, data[ 5] & 0xFF, data[ 6] & 0xFF, data[ 7] & 0xFF,
-            data[ 8] & 0xFF, data[ 9] & 0xFF, data[10] & 0xFF, data[11] & 0xFF,
-            data[12] & 0xFF, data[13] & 0xFF, data[14] & 0xFF, data[15] & 0xFF,
-            data[16] & 0xFF, data[17] & 0xFF, data[18] & 0xFF, data[19] & 0xFF);
-
-        return UUID.fromString(uuid);
+        return UUIDCreator.from128(data, 4);
     }
 
 

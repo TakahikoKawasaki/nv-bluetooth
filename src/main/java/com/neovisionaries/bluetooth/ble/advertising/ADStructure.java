@@ -16,6 +16,9 @@
 package com.neovisionaries.bluetooth.ble.advertising;
 
 
+import java.io.Serializable;
+
+
 /**
  * AD structure.
  *
@@ -39,9 +42,11 @@ package com.neovisionaries.bluetooth.ble.advertising;
  * @see <a href="https://www.bluetooth.org/en-us/specification/adopted-specifications"
  *      >Specification Adopted Documents</a>
  */
-public class ADStructure
+public class ADStructure implements Serializable
 {
+    private static final long serialVersionUID = 1L;
     private static final String STRING_FORMAT = "ADStructure(Length=%d,Type=0x%02X)";
+
     private int mLength;
     private int mType;
     private byte[] mData;
