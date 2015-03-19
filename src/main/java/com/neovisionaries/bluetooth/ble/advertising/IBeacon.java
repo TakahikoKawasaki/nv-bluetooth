@@ -25,7 +25,11 @@ import com.neovisionaries.bluetooth.ble.util.UUIDCreator;
  */
 public class IBeacon extends ADManufacturerSpecific
 {
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 2L;
+    private static final int UUID_INDEX  =  4;
+    private static final int MAJOR_INDEX = 20;
+    private static final int MINOR_INDEX = 22;
+    private static final int POWER_INDEX = 24;
     private static final String STRING_FORMAT =
         "iBeacon(UUID=%s,Major=%d,Minor=%d,Power=%d)";
 
@@ -104,11 +108,40 @@ public class IBeacon extends ADManufacturerSpecific
      *
      *
      * @param uuid
-     *         The proximity UUID.
+     *         The proximity UUID. The value must not be {@code null}.
+     *
+     * @throws IllegalArgumentException
+     *         The given value is {@code null}.
      */
     public void setUUID(UUID uuid)
     {
+        if (uuid == null)
+        {
+            throw new IllegalArgumentException("'uuid' is null.");
+        }
+
         mUUID = uuid;
+
+        long msbits = uuid.getMostSignificantBits();
+        long lsbits = uuid.getLeastSignificantBits();
+
+        byte[] data = getData();
+        data[UUID_INDEX +  0] = (byte)((msbits >> 56) & 0xFF);
+        data[UUID_INDEX +  1] = (byte)((msbits >> 48) & 0xFF);
+        data[UUID_INDEX +  2] = (byte)((msbits >> 40) & 0xFF);
+        data[UUID_INDEX +  3] = (byte)((msbits >> 32) & 0xFF);
+        data[UUID_INDEX +  4] = (byte)((msbits >> 24) & 0xFF);
+        data[UUID_INDEX +  5] = (byte)((msbits >> 16) & 0xFF);
+        data[UUID_INDEX +  6] = (byte)((msbits >>  8) & 0xFF);
+        data[UUID_INDEX +  7] = (byte)((msbits      ) & 0xFF);
+        data[UUID_INDEX +  8] = (byte)((lsbits >> 56) & 0xFF);
+        data[UUID_INDEX +  9] = (byte)((lsbits >> 48) & 0xFF);
+        data[UUID_INDEX + 10] = (byte)((lsbits >> 40) & 0xFF);
+        data[UUID_INDEX + 11] = (byte)((lsbits >> 32) & 0xFF);
+        data[UUID_INDEX + 12] = (byte)((lsbits >> 24) & 0xFF);
+        data[UUID_INDEX + 13] = (byte)((lsbits >> 16) & 0xFF);
+        data[UUID_INDEX + 14] = (byte)((lsbits >>  8) & 0xFF);
+        data[UUID_INDEX + 15] = (byte)((lsbits >>  0) & 0xFF);
     }
 
 
@@ -129,10 +162,22 @@ public class IBeacon extends ADManufacturerSpecific
      *
      * @param major
      *         The major number. The value should be in the range from 0 to 65535.
+     *
+     * @throws IllegalArgumentException
+     *         The given value is out of the valid range.
      */
     public void setMajor(int major)
     {
+        if (major < 0 || 0xFFFF < major)
+        {
+            throw new IllegalArgumentException("'major' is out of the valid range: " + major);
+        }
+
         mMajor = major;
+
+        byte[] data = getData();
+        data[MAJOR_INDEX    ] = (byte)((major >> 8) & 0xFF);
+        data[MAJOR_INDEX + 1] = (byte)((major     ) & 0xFF);
     }
 
 
@@ -153,10 +198,22 @@ public class IBeacon extends ADManufacturerSpecific
      *
      * @param minor
      *         The minor number. The value should be in the range from 0 to 65535.
+     *
+     * @throws IllegalArgumentException
+     *         The given value is out of the valid range.
      */
     public void setMinor(int minor)
     {
+        if (minor < 0 || 0xFFFF < minor)
+        {
+            throw new IllegalArgumentException("'minor' is out of the valid range: " + minor);
+        }
+
         mMinor = minor;
+
+        byte[] data = getData();
+        data[MINOR_INDEX    ] = (byte)((minor >> 8) & 0xFF);
+        data[MINOR_INDEX + 1] = (byte)((minor     ) & 0xFF);
     }
 
 
@@ -176,18 +233,28 @@ public class IBeacon extends ADManufacturerSpecific
      * Set the power.
      *
      * @param power
-     *         The power.
+     *         The power. The value should be in the range from -128 to 127.
+     *
+     * @throws IllegalArgumentException
+     *         The given value is out of the valid range.
      */
     public void setPower(int power)
     {
+        if (power < -128 || 127 < power)
+        {
+            throw new IllegalArgumentException("'power' is out of the valid range: " + power);
+        }
+
         mPower = power;
+
+        getData()[POWER_INDEX] = (byte)(power & 0xFF);
     }
 
 
     private void parse(byte[] data)
     {
         // 25 = 2 (company ID) + 2 (format ID) + 16 (UUID) + 2 (major) + 2 (minor) + 1 (power)
-        if (data.length < 25)
+        if (data == null || data.length < 25)
         {
             throw new IllegalArgumentException("The byte sequence cannot be parsed as an iBeacon.");
         }
@@ -216,19 +283,19 @@ public class IBeacon extends ADManufacturerSpecific
 
     private int buildMajor(byte[] data)
     {
-        return parseBE2BytesAsInt(data, 20);
+        return parseBE2BytesAsInt(data, MAJOR_INDEX);
     }
 
 
     private int buildMinor(byte[] data)
     {
-        return parseBE2BytesAsInt(data, 22);
+        return parseBE2BytesAsInt(data, MINOR_INDEX);
     }
 
 
     private int buildPower(byte[] data)
     {
-        return data[24];
+        return data[POWER_INDEX];
     }
 
 

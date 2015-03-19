@@ -29,7 +29,12 @@ package com.neovisionaries.bluetooth.ble.advertising;
  */
 public class ADFlags extends ADStructure
 {
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 2L;
+    private static final int LIMITED_DISCOVERABLE_BIT              = 0x01;
+    private static final int GENERAL_DISCOVERABLE_BIT              = 0x02;
+    private static final int LEGACY_NOT_SUPPORTED_BIT              = 0x04;
+    private static final int CONTROLLER_SIMULTANEITY_SUPPORTED_BIT = 0x08;
+    private static final int HOST_SIMULTANEITY_SUPPORTED_BIT       = 0x10;
     private static final String STRING_FORMAT =
         "Flags(LimitedDiscoverable=%s,GeneralDiscoverable=%s," +
         "LegacySupported=%s,ControllerSimultaneitySupported=%s,HostSimultaneitySupported=%s)";
@@ -87,6 +92,7 @@ public class ADFlags extends ADStructure
     public void setLimitedDiscoverable(boolean discoverable)
     {
         mLimitedDiscoverable = discoverable;
+        setBit(0, LIMITED_DISCOVERABLE_BIT, discoverable);
     }
 
 
@@ -105,6 +111,7 @@ public class ADFlags extends ADStructure
     public void setGeneralDiscoverable(boolean discoverable)
     {
         mGeneralDiscoverable = discoverable;
+        setBit(0, GENERAL_DISCOVERABLE_BIT, discoverable);
     }
 
 
@@ -126,6 +133,7 @@ public class ADFlags extends ADStructure
     public void setLegacySupported(boolean supported)
     {
         mLegacySupported = supported;
+        setBit(0, LEGACY_NOT_SUPPORTED_BIT, !supported);
     }
 
 
@@ -146,6 +154,7 @@ public class ADFlags extends ADStructure
     public void setControllerSimultaneitySupported(boolean supported)
     {
         mControllerSimultaneitySupported = supported;
+        setBit(0, CONTROLLER_SIMULTANEITY_SUPPORTED_BIT, supported);
     }
 
 
@@ -166,6 +175,7 @@ public class ADFlags extends ADStructure
     public void setHostSimultaneitySupported(boolean supported)
     {
         mHostSimultaneitySupported = supported;
+        setBit(0, HOST_SIMULTANEITY_SUPPORTED_BIT, supported);
     }
 
 
@@ -176,11 +186,36 @@ public class ADFlags extends ADStructure
             return;
         }
 
-        mLimitedDiscoverable             = (data[0] & 0x01) != 0;
-        mGeneralDiscoverable             = (data[0] & 0x02) != 0;
-        mLegacySupported                 = (data[0] & 0x04) == 0; // inverted
-        mControllerSimultaneitySupported = (data[0] & 0x08) != 0;
-        mHostSimultaneitySupported       = (data[0] & 0x10) != 0;
+        mLimitedDiscoverable             = (data[0] & LIMITED_DISCOVERABLE_BIT)              != 0;
+        mGeneralDiscoverable             = (data[0] & GENERAL_DISCOVERABLE_BIT)              != 0;
+        mLegacySupported                 = (data[0] & LEGACY_NOT_SUPPORTED_BIT)              == 0; // inverted
+        mControllerSimultaneitySupported = (data[0] & CONTROLLER_SIMULTANEITY_SUPPORTED_BIT) != 0;
+        mHostSimultaneitySupported       = (data[0] & HOST_SIMULTANEITY_SUPPORTED_BIT)       != 0;
+    }
+
+
+    private void setBit(int byteIndex, int bitIndex, boolean value)
+    {
+        if (byteIndex < 0 || bitIndex < 0 || 7 < bitIndex)
+        {
+            return;
+        }
+
+        byte[] data = getData();
+
+        if (data == null || data.length <= byteIndex)
+        {
+            return;
+        }
+
+        if (value)
+        {
+            data[byteIndex] = (byte)((data[byteIndex] | (1 << bitIndex)) & 0xFF);
+        }
+        else
+        {
+            data[byteIndex] = (byte)((data[byteIndex] & ~(1 << bitIndex)) & 0xFF);
+        }
     }
 
 

@@ -17,13 +17,14 @@ package com.neovisionaries.bluetooth.ble.advertising;
 
 
 /**
- * Builder for {@link IBeacon}.
+ * Builder for T-Engine Forum (Company ID = 0x019A).
+ *
+ * @since 1.1
  */
-class IBeaconBuilder implements ADManufacturerSpecificBuilder
+class MS019ABuilder extends MSBuilder
 {
-    @Override
-    public ADManufacturerSpecific build(int length, int type, byte[] data, int companyId)
+    public MS019ABuilder()
     {
-        return IBeacon.create(length, type, data, companyId);
+        super(new UcodeBuilder());
     }
 }
