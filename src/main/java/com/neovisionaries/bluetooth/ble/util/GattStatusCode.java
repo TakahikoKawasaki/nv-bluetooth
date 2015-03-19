@@ -29,6 +29,8 @@ import java.util.Map;
  * href="http://developer.android.com/reference/android/bluetooth/BluetoothGattCallback.html"
  * >BluetoothGattCallback</a> class is one of the entries in this enum (probably).
  * </p>
+ *
+ * @since 1.1
  */
 public enum GattStatusCode
 {
