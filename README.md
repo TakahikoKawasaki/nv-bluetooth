@@ -87,6 +87,29 @@ public void onLeScan(BluetoothDevice device, int rssi, byte[] scanRecord)
             int power = iBeacon.getPower();
 ```
 
+```java
+public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState)
+{
+    Log.d(TAG, "status = " + stringifyGattStatus(status));
+
+    ......
+}
+
+private String stringifyGattStatus(int status)
+{
+    GattStatusCode code = GattStatusCode.getByValue(status);
+
+    if (code != null)
+    {
+        return code.name();
+    }
+    else
+    {
+        return String.format("UNKNOWN (%d)", status);
+    }
+}
+```
+
 
 Note
 ----
