@@ -30,7 +30,7 @@ import java.util.Map;
  * >BluetoothGattCallback</a> class is one of the entries in this enum (probably).
  * </p>
  */
-public enum GattResultCode
+public enum GattStatusCode
 {
     /**
      * GATT_SUCCESS [0x00, 0].
@@ -259,22 +259,22 @@ public enum GattResultCode
     ;
 
 
-    private static final Map<Integer, GattResultCode> sValueToCodeMap;
+    private static final Map<Integer, GattStatusCode> sValueToCodeMap;
     private final int mValue;
 
 
     static
     {
-        sValueToCodeMap = new HashMap<Integer, GattResultCode>();
+        sValueToCodeMap = new HashMap<Integer, GattStatusCode>();
 
-        for (GattResultCode code : values())
+        for (GattStatusCode code : values())
         {
             sValueToCodeMap.put(Integer.valueOf(code.getValue()), code);
         }
     }
 
 
-    private GattResultCode(int value)
+    private GattStatusCode(int value)
     {
         mValue = value;
     }
@@ -293,15 +293,15 @@ public enum GattResultCode
 
 
     /**
-     * Get a {@link GattResultCode} instance that has the specified value.
+     * Get a {@link GattStatusCode} instance that has the specified value.
      *
      * @param value
      *         The integer value of a result code.
      *
      * @return
-     *         A {@link GattResultCode} instance or {@code null}.
+     *         A {@link GattStatusCode} instance or {@code null}.
      */
-    public static GattResultCode getByValue(int value)
+    public static GattStatusCode getByValue(int value)
     {
         return sValueToCodeMap.get(Integer.valueOf(value));
     }
