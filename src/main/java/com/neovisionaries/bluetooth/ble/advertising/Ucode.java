@@ -107,7 +107,7 @@ public class Ucode extends ADManufacturerSpecific
      *
      * @throws IllegalArgumentException
      *         {@code data} is {@code null} or the length of
-     *         {@code data} is less than 25.
+     *         {@code data} is less than 22.
      */
     public Ucode(int length, int type, byte[] data, int companyId)
     {
@@ -474,8 +474,11 @@ public class Ucode extends ADManufacturerSpecific
 
     private void parse(byte[] data)
     {
-        // 25 = 2 (company ID) + 1 (version) + 16 (ucode) + 1 (status) + 1 (power) + 1 (counter) + 3 (reserved)
-        if (data == null || data.length < 25)
+        // 22 = 2 (company ID) + 1 (version) + 16 (ucode) + 1 (status) + 1 (power) + 1 (counter)
+        //
+        // The reserved three bytes at the end of ucode packets are ignored
+        // in the current implementation.
+        if (data == null || data.length < 22)
         {
             throw new IllegalArgumentException("The byte sequence cannot be parsed as a ucode.");
         }
@@ -575,6 +578,11 @@ public class Ucode extends ADManufacturerSpecific
      *       <td>1-byte unsigned number.</td>
      *       <td>The counter value incremented per transmission.</td>
      *     </tr>
+     *     <tr>
+     *       <td>Reserved</td>
+     *       <td>3-byte zeros.</td>
+     *       <td>Reserved for future use.</td>
+     *     </tr>
      *   </tbody>
      * </table>
      *
@@ -594,11 +602,11 @@ public class Ucode extends ADManufacturerSpecific
      *
      * @return
      *         A {@link Ucode} instance. {@code null} is returned if the
-     *         length of {@code data} is less than 25.
+     *         length of {@code data} is less than 22.
      */
     public static Ucode create(int length, int type, byte[] data, int companyId)
     {
-        if (data == null || data.length < 25)
+        if (data == null || data.length < 22)
         {
             return null;
         }
