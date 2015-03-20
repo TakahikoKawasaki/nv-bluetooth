@@ -54,6 +54,7 @@ public class ADPayloadParser
         // Builders for Manufacturer Specific Data.
         mMSBuilders = new HashMap<Integer, List<ADManufacturerSpecificBuilder>>();
         registerManufacturerSpecificBuilder(0x004C, new MS004CBuilder());
+        registerManufacturerSpecificBuilder(0x0105, new MS0105Builder());
         registerManufacturerSpecificBuilder(0x019A, new MS019ABuilder());
 
         // Builder for AD structures that list UUIDs.
@@ -290,6 +291,13 @@ public class ADPayloadParser
      *       <td>Apple, Inc.</td>
      *       <td>iBeacon</td>
      *       <td>{@link IBeacon}</td>
+     *     </tr>
+     *     <tr>
+     *       <td><code>0xFF</code></td>
+     *       <td><code>0x0105</code></td>
+     *       <td>Ubiquitous Computing Technology Corporation</td>
+     *       <td>ucode</td>
+     *       <td>{@link Ucode}</td>
      *     </tr>
      *     <tr>
      *       <td><code>0xFF</code></td>

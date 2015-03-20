@@ -58,10 +58,11 @@ Supported AD Types
 Supported Manufacturer Specific Data
 ------------------------------------
 
- Company ID | Company Name   | Format
-------------|----------------|-----------------------------
- 0x004C     | Apple, Inc.    | iBeacon
- 0x019A     | T-Engine Forum | ucode
+ Company ID | Company Name                                | Format
+------------|---------------------------------------------|---------
+ 0x004C     | Apple, Inc.                                 | iBeacon
+ 0x0105     | Ubiquitous Computing Technology Corporation | ucode
+ 0x019A     | T-Engine Forum                              | ucode
 
 
 Example
@@ -78,13 +79,83 @@ public void onLeScan(BluetoothDevice device, int rssi, byte[] scanRecord)
         if (structure instanceof IBeacon)
         {
             // An iBeacon packet was found.
-            IBeacon iBeacon = (IBeacon)structure;
+            handleIBeacon((IBeacon)structure);
+        }
+        else if (structure instanceof Ucode)
+        {
+            // A ucode packet was found.
+            handleUcode((Ucode)structure);
+        }
+        else if (structure instanceof ADFlags)
+        {
+            handleFlags((ADFlags)structure);
+        }
+    }
+}
 
-            // Proximity UUID, major number, minor number and power.
-            UUID uuid = iBeacon.getUUID();
-            int major = iBeacon.getMajor();
-            int minor = iBeacon.getMinor();
-            int power = iBeacon.getPower();
+private void handleIBeacon(IBeacon iBeacon)
+{
+    // Proximity UUID
+    UUID uuid = iBeacon.getUUID();
+
+    // Major number
+    int major = iBeacon.getMajor();
+
+    // Minor number
+    int minor = iBeacon.getMinor();
+
+    // Power
+    int power = iBeacon.getPower();
+
+    ......
+}
+
+private void handleUcode(Ucode ucode)
+{
+    // Version
+    int version = ucode.getVersion();
+
+    // Ucode (32 upper-case hex letters)
+    String ucode = ucode.getUcode();
+
+    // Status
+    int status = ucode.getStatus();
+
+    // The state of the battery
+    boolean low = ucode.isBatteryLow();
+
+    // Transmission interval
+    int interval = ucode.getInterval();
+
+    // Transmission power
+    int power = ucode.getPower();
+
+    // Transmission count
+    int count = ucode.getCount();
+
+    ......
+}
+
+
+private void handleFlags(ADFlags flags)
+{
+    // LE Limited Discoverable Mode
+    boolean limited = flags.isLimitedDiscoverable();
+
+    // LE General Discoverable Mode
+    boolean general = flags.isGeneralDiscoverable();
+
+    // (inverted) BR/EDR Not Supported
+    boolean legacySupported = flags.isLegacySupported();
+
+    // Simultaneous LE and BR/EDR to Same Device Capable (Controller)
+    boolean controllerSimultaneity = flags.isControllerSimultaneitySupported();
+
+    // Simultaneous LE and BR/EDR to Same Device Capable (Host)
+    boolean hostSimultaneity = flags.isHostSimultaneitySupported();
+
+    ......
+}
 ```
 
 ```java
@@ -95,7 +166,7 @@ public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState
     ......
 }
 
-private String stringifyGattStatus(int status)
+private static String stringifyGattStatus(int status)
 {
     GattStatusCode code = GattStatusCode.getByValue(status);
 
@@ -114,7 +185,7 @@ private String stringifyGattStatus(int status)
 Note
 ----
 
-Not tested.
+Not tested enough.
 
 
 TODO
