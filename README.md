@@ -142,7 +142,7 @@ int minor = iBeacon.getMinor();
 int power = iBeacon.getPower();
 ```
 
-The following shows the usage of `Flags' class's methods.
+The following shows the usage of `Flags` class's methods.
 
 ```java
 Flags flags = (Flags)structure;
@@ -165,7 +165,7 @@ boolean hostSimultaneity = flags.isHostSimultaneitySupported();
 
 And the usage of `Ucode` class's methods. FYI: [ucode]
 (http://en.wikipedia.org/wiki/Ucode_system) is an identification number
-system that has officially defined as "ITU-T H.642".
+system that has officially been defined as "ITU-T H.642".
 
 ```java
 Ucode ucode = (Ucode)structure;
@@ -193,10 +193,10 @@ int count = ucode.getCount();
 ```
 
 This library contains some utility classes. `GattStatusCode` is an enum
-that represents result codes of GATT API (which are defined in {@code
-gatt_api.h}). Using the enum, a result code can be converted to a string
-like below. Note that Android's `BluetoothGatt` class contains some result
-code constants but many others are not defined.
+that represents result codes of GATT API (which are defined in `gatt_api.h`).
+Using the enum, a result code can be converted to a string like below.
+Note that Android's `BluetoothGatt` class contains some result code
+constants but many others are not defined.
 
 ```java
 // onConnectionStateChange() method of BluetoothGattCallback class.
