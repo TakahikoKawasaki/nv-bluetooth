@@ -60,6 +60,9 @@ public class ADPayloadParser
         // Builder for AD structures that list UUIDs.
         ADUUIDsBuilder uuidsBuilder = new ADUUIDsBuilder();
 
+        // Builder for AD structures that contain a local name.
+        LocalNameBuilder localNameBuilder = new LocalNameBuilder();
+
         // Builders.
         mBuilders = new HashMap<Integer, List<ADStructureBuilder>>();
         registerBuilder(0x01, new ADFlagsBuilder());
@@ -69,6 +72,8 @@ public class ADPayloadParser
         registerBuilder(0x05, uuidsBuilder);
         registerBuilder(0x06, uuidsBuilder);
         registerBuilder(0x07, uuidsBuilder);
+        registerBuilder(0x08, localNameBuilder);
+        registerBuilder(0x09, localNameBuilder);
         registerBuilder(0x14, uuidsBuilder);
         registerBuilder(0x15, uuidsBuilder);
         registerBuilder(0x1F, uuidsBuilder);
