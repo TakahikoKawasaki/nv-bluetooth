@@ -58,14 +58,14 @@ public class ADPayloadParser
         registerManufacturerSpecificBuilder(0x019A, new MS019ABuilder());
 
         // Builder for AD structures that list UUIDs.
-        ADUUIDsBuilder uuidsBuilder = new ADUUIDsBuilder();
+        UUIDsBuilder uuidsBuilder = new UUIDsBuilder();
 
         // Builder for AD structures that contain a local name.
         LocalNameBuilder localNameBuilder = new LocalNameBuilder();
 
         // Builders.
         mBuilders = new HashMap<Integer, List<ADStructureBuilder>>();
-        registerBuilder(0x01, new ADFlagsBuilder());
+        registerBuilder(0x01, new FlagsBuilder());
         registerBuilder(0x02, uuidsBuilder);
         registerBuilder(0x03, uuidsBuilder);
         registerBuilder(0x04, uuidsBuilder);
@@ -220,52 +220,52 @@ public class ADPayloadParser
      *     <tr>
      *       <td><code>0x01</code></td>
      *       <td>Flags</td>
-     *       <td>{@link ADFlags}</td>
+     *       <td>{@link Flags}</td>
      *     </tr>
      *     <tr>
      *       <td><code>0x02</code></td>
      *       <td>Incomplete List of 16-bit Service Class UUIDs</td>
-     *       <td>{@link ADUUIDs}</td>
+     *       <td>{@link UUIDs}</td>
      *     </tr>
      *     <tr>
      *       <td><code>0x03</code></td>
      *       <td>Complete List of 16-bit Service Class UUIDs</td>
-     *       <td>{@link ADUUIDs}</td>
+     *       <td>{@link UUIDs}</td>
      *     </tr>
      *     <tr>
      *       <td><code>0x04</code></td>
      *       <td>Incomplete List of 32-bit Service Class UUIDs</td>
-     *       <td>{@link ADUUIDs}</td>
+     *       <td>{@link UUIDs}</td>
      *     </tr>
      *     <tr>
      *       <td><code>0x05</code></td>
      *       <td>Complete List of 32-bit Service Class UUIDs</td>
-     *       <td>{@link ADUUIDs}</td>
+     *       <td>{@link UUIDs}</td>
      *     </tr>
      *     <tr>
      *       <td><code>0x06</code></td>
      *       <td>Incomplete List of 128-bit Service Class UUIDs</td>
-     *       <td>{@link ADUUIDs}</td>
+     *       <td>{@link UUIDs}</td>
      *     </tr>
      *     <tr>
      *       <td><code>0x07</code></td>
      *       <td>Complete List of 128-bit Service Class UUIDs</td>
-     *       <td>{@link ADUUIDs}</td>
+     *       <td>{@link UUIDs}</td>
      *     </tr>
      *     <tr>
      *       <td><code>0x14</code></td>
      *       <td>List of 16-bit Service Solicitation UUIDs</td>
-     *       <td>{@link ADUUIDs}</td>
+     *       <td>{@link UUIDs}</td>
      *     </tr>
      *     <tr>
      *       <td><code>0x15</code></td>
      *       <td>List of 128-bit Service Solicitation UUIDs</td>
-     *       <td>{@link ADUUIDs}</td>
+     *       <td>{@link UUIDs}</td>
      *     </tr>
      *     <tr>
      *       <td><code>0x1F</code></td>
      *       <td>List of 32-bit Service Solicitation UUIDs</td>
-     *       <td>{@link ADUUIDs}</td>
+     *       <td>{@link UUIDs}</td>
      *     </tr>
      *     <tr>
      *       <td><code>0xFF</code></td>

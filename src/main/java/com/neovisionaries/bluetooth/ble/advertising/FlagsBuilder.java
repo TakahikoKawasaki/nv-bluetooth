@@ -16,11 +16,11 @@
 package com.neovisionaries.bluetooth.ble.advertising;
 
 
-class ADFlagsBuilder implements ADStructureBuilder
+class FlagsBuilder implements ADStructureBuilder
 {
     @Override
     public ADStructure build(int length, int type, byte[] data)
     {
-        return new ADFlags(length, type, data);
+        return new Flags(length, type, data);
     }
 }

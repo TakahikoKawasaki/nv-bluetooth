@@ -80,7 +80,7 @@ import java.util.UUID;
  * @see <a href="https://www.bluetooth.org/en-us/specification/assigned-numbers/generic-access-profile"
  *      >Generic Access Profile (GAP)</a>
  */
-public class ADUUIDs extends ADStructure
+public class UUIDs extends ADStructure
 {
     private static final long serialVersionUID = 1L;
     private static final String STRING_FORMAT = "UUIDs(%s)";
@@ -91,7 +91,7 @@ public class ADUUIDs extends ADStructure
     /**
      * Constructor to create an instance with length=0, type=0, data=null and UUIDs=null.
      */
-    public ADUUIDs()
+    public UUIDs()
     {
     }
 
@@ -111,7 +111,7 @@ public class ADUUIDs extends ADStructure
      * @param uuids
      *         UUID list.
      */
-    public ADUUIDs(int length, int type, byte[] data, UUID... uuids)
+    public UUIDs(int length, int type, byte[] data, UUID... uuids)
     {
         super(length, type, data);
 

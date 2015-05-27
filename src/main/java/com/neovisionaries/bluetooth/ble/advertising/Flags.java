@@ -27,7 +27,7 @@ package com.neovisionaries.bluetooth.ble.advertising;
  * @see <a href="https://www.bluetooth.org/en-us/specification/adopted-specifications"
  *      >Specification Adopted Documents</a>
  */
-public class ADFlags extends ADStructure
+public class Flags extends ADStructure
 {
     private static final long serialVersionUID = 2L;
     private static final int LIMITED_DISCOVERABLE_BIT              = 0x01;
@@ -49,7 +49,7 @@ public class ADFlags extends ADStructure
      * Constructor to create an instance with length=2, type=0x01,
      * and data={0x00}.
      */
-    public ADFlags()
+    public Flags()
     {
         // Type 0x01 represents "Flags".
         this(2, 0x01, new byte[]{ (byte)0x00 });
@@ -69,7 +69,7 @@ public class ADFlags extends ADStructure
      * @param data
      *         The AD data.
      */
-    public ADFlags(int length, int type, byte[] data)
+    public Flags(int length, int type, byte[] data)
     {
         super(length, type, data);
 

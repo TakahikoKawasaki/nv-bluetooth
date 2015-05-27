@@ -93,9 +93,9 @@ public void onLeScan(BluetoothDevice device, int rssi, byte[] scanRecord)
             // A ucode packet was found.
             handleUcode((Ucode)structure);
         }
-        else if (structure instanceof ADFlags)
+        else if (structure instanceof Flags)
         {
-            handleFlags((ADFlags)structure);
+            handleFlags((Flags)structure);
         }
     }
 }
@@ -144,7 +144,7 @@ private void handleUcode(Ucode ucode)
 }
 
 
-private void handleFlags(ADFlags flags)
+private void handleFlags(Flags flags)
 {
     // LE Limited Discoverable Mode
     boolean limited = flags.isLimitedDiscoverable();

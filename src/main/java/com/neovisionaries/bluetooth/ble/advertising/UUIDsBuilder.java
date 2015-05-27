@@ -21,11 +21,11 @@ import com.neovisionaries.bluetooth.ble.util.UUIDCreator;
 
 
 /**
- * Builder for {@link ADUUIDs} instances.
+ * Builder for {@link UUIDs} instances.
  *
  * @since 1.1
  */
-class ADUUIDsBuilder implements ADStructureBuilder
+class UUIDsBuilder implements ADStructureBuilder
 {
     @Override
     public ADStructure build(int length, int type, byte[] data)
@@ -59,7 +59,7 @@ class ADUUIDsBuilder implements ADStructureBuilder
                 return null;
         }
 
-        return new ADUUIDs(length, type, data, uuids);
+        return new UUIDs(length, type, data, uuids);
     }
 
 
