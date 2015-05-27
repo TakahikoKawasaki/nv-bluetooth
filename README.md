@@ -51,6 +51,7 @@ Supported AD Types
  0x07  | Complete List of 128-bit Service Class UUIDs
  0x08  | Shortened Local Name
  0x09  | Complete Local Name
+ 0x0A  | Tx Power Level
  0x14  | List of 16-bit Service Solicitation UUIDs
  0x15  | List of 128-bit Service Solicitation UUIDs
  0x1F  | List of 32-bit Service Solicitation UUIDs

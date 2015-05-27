@@ -74,6 +74,7 @@ public class ADPayloadParser
         registerBuilder(0x07, uuidsBuilder);
         registerBuilder(0x08, localNameBuilder);
         registerBuilder(0x09, localNameBuilder);
+        registerBuilder(0x0A, new TxPowerLevelBuilder());
         registerBuilder(0x14, uuidsBuilder);
         registerBuilder(0x15, uuidsBuilder);
         registerBuilder(0x1F, uuidsBuilder);
