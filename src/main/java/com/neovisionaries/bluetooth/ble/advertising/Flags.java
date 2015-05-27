@@ -24,6 +24,11 @@ package com.neovisionaries.bluetooth.ble.advertising;
  * in <i>"Core Specification Supplement v5"</i>.
  * </p>
  *
+ * <p>
+ * This class was renamed from {@code ADFlags} to {@code Flags}
+ * when the version was upgraded to 1.4.
+ * </p>
+ *
  * @see <a href="https://www.bluetooth.org/en-us/specification/adopted-specifications"
  *      >Specification Adopted Documents</a>
  */

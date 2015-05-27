@@ -75,6 +75,11 @@ import java.util.UUID;
  *   </tbody>
  * </table>
  *
+ * <p>
+ * This class was renamed from {@code ADUUIDs} to {@code UUIDs}
+ * when the version was upgraded to 1.4.
+ * </p>
+ *
  * @since 1.1
  *
  * @see <a href="https://www.bluetooth.org/en-us/specification/assigned-numbers/generic-access-profile"
