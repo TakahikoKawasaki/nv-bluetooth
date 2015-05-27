@@ -83,7 +83,7 @@ import java.util.UUID;
 public class ADUUIDs extends ADStructure
 {
     private static final long serialVersionUID = 1L;
-    private static final String STRING_FORMAT = "ADUUIDs(%s)";
+    private static final String STRING_FORMAT = "UUIDs(%s)";
 
     private UUID[] mUUIDs;
 

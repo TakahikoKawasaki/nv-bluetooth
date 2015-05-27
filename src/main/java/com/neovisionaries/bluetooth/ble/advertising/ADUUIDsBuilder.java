@@ -53,6 +53,7 @@ class ADUUIDsBuilder implements ADStructureBuilder
             case 0x07: // Complete List of 128-bit Service Class UUIDs
             case 0x15: // List of 128-bit Service Solicitation UUIDs
                 uuids = extract128(data);
+                break;
 
             default:
                 return null;
