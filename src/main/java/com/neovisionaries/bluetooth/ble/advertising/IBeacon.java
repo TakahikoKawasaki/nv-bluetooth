@@ -17,6 +17,7 @@ package com.neovisionaries.bluetooth.ble.advertising;
 
 
 import java.util.UUID;
+import com.neovisionaries.bluetooth.ble.util.Bytes;
 import com.neovisionaries.bluetooth.ble.util.UUIDCreator;
 
 
@@ -272,24 +273,15 @@ public class IBeacon extends ADManufacturerSpecific
     }
 
 
-    private int parseBE2BytesAsInt(byte[] data, int offset)
-    {
-        int value = ((data[offset + 0] & 0xFF) << 8)
-                  | ((data[offset + 1] & 0xFF) << 0);
-
-        return value;
-    }
-
-
     private int buildMajor(byte[] data)
     {
-        return parseBE2BytesAsInt(data, MAJOR_INDEX);
+        return Bytes.parseBE2BytesAsInt(data, MAJOR_INDEX);
     }
 
 
     private int buildMinor(byte[] data)
     {
-        return parseBE2BytesAsInt(data, MINOR_INDEX);
+        return Bytes.parseBE2BytesAsInt(data, MINOR_INDEX);
     }
 
 

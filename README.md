@@ -25,7 +25,7 @@ Maven
 <dependency>
     <groupId>com.neovisionaries</groupId>
     <artifactId>nv-bluetooth</artifactId>
-    <version>1.4</version>
+    <version>1.5</version>
 </dependency>
 ```
 
@@ -35,7 +35,7 @@ Gradle
 
 ```Gradle
 dependencies {
-    compile 'com.neovisionaries:nv-bluetooth:1.4'
+    compile 'com.neovisionaries:nv-bluetooth:1.5'
 }
 ```
 
@@ -69,7 +69,10 @@ Supported AD Types
  0x0A  | Tx Power Level                                 | `TxPowerLevel`            |
  0x14  | List of 16-bit Service Solicitation UUIDs      | `UUIDs`                   |
  0x15  | List of 128-bit Service Solicitation UUIDs     | `UUIDs`                   |
+ 0x16  | Service Data - 16-bit UUID                     | `ServiceData`             |
  0x1F  | List of 32-bit Service Solicitation UUIDs      | `UUIDs`                   |
+ 0x20  | Service Data - 32-bit UUID                     | `ServiceData`             |
+ 0x21  | Service Data - 128-bit UUID                    | `ServiceData`             |
  0xFF  | Manufacturer Specific Data                     | `ADManufacturereSpecific` |
 
 The assigned numbers of AD types are listed in "[Generic Access Profile]
@@ -85,6 +88,16 @@ Supported Manufacturer Specific Data
  0x004C     | Apple, Inc.                                 | iBeacon | `IBeacon`            |
  0x0105     | Ubiquitous Computing Technology Corporation | ucode   | `Ucode`              |
  0x019A     | T-Engine Forum                              | ucode   | `Ucode`              |
+
+
+Supported Service Data
+----------------------
+
+ Service UUID       | Format        | Implementation Class |
+--------------------|---------------|----------------------|
+ 0xFEAA (Eddystone) | Eddystone UID | `EddystoneUID`       |
+ 0xFEAA (Eddystone) | Eddystone URL | `EddystoneURL`       |
+ 0xFEAA (Eddystone) | Eddystone TLM | `EddystoneTLM`       |
 
 
 Description
@@ -122,6 +135,9 @@ for (ADStructure structure : structures)
     }
 ```
 
+
+#### iBeacon
+
 Subclasses of `ADStructure` class have their own specialized methods. For
 instance, `IBeacon` class provides methods to get (1) the proximity UUID,
 (2) the major number, (3) the minor number, and (4) the tx power.
@@ -142,55 +158,136 @@ int minor = iBeacon.getMinor();
 int power = iBeacon.getPower();
 ```
 
+
+#### Eddystone
+
+There are three `ADStructure` subclasses for [Eddystone](https://github.com/google/eddystone).
+`EddystoneUID` class is for [Eddystone UID](https://github.com/google/eddystone/tree/master/eddystone-uid),
+`EddystoneURL` class is for [Eddystone URL](https://github.com/google/eddystone/tree/master/eddystone-url), and
+`EddystoneTLM` class is for [Eddystone TLM](https://github.com/google/eddystone/tree/master/eddystone-tlm).
+The exact inheritance tree is illustrated below.
+
+```
+ADStructure
+  |
+  +-- ServiceData
+        |
+        +-- Eddystone
+              |
+              +-- EddystoneUID
+              +-- EddystoneURL
+              +-- EddystoneTLM
+```
+
+```java
+// Eddystone UID
+EddystoneUID es = (EddystoneUID)structure;
+
+// (1) Calibrated Tx power at 0 m.
+int power = es.getTxPower();
+
+// (2) 10-byte Namespace ID
+byte[] namespaceId = es.getNamespaceId();
+String namespaceIdAsString = es.getNamespaceIdAsString();
+
+// (3) 6-byte Instance ID
+byte[] instanceId = es.getInstanceId();
+String instanceIdAsString = es.getInstanceIdAsString();
+
+// (4) 16-byte Beacon ID
+byte[] beaconId = es.getBeaconId();
+String beaconIdAsString = es.getBeaconIdAsString();
+```
+
+```java
+// Eddystone URL
+EddystoneURL es = (EddystoneURL)structure;
+
+// (1) Calibrated Tx power at 0 m.
+int power = es.getTxPower();
+
+// (2) URL
+URL url = es.getURL();
+```
+
+```java
+// Eddystone TLM
+EddystoneTLM es = (EddystoneTLM)structure;
+
+// (1) TLM Version
+int version = es.getTLMVersion();
+
+// (2) Battery Voltage
+int voltage = es.getBatteryVoltage();
+
+// (3) Beacon Temperature
+float temperature = es.getBeaconTemperature();
+
+// (4) Advertisement count since power-on or reboot.
+long count = es.getAdvertisementCount();
+
+// (5) Elapsed time in milliseconds since power-on or reboot.
+long elapsed = es.getElapsedTime();
+```
+
+
+#### Flags
+
 The following shows the usage of `Flags` class's methods.
 
 ```java
 Flags flags = (Flags)structure;
 
-// LE Limited Discoverable Mode
+// (1) LE Limited Discoverable Mode
 boolean limited = flags.isLimitedDiscoverable();
 
-// LE General Discoverable Mode
+// (2) LE General Discoverable Mode
 boolean general = flags.isGeneralDiscoverable();
 
-// (inverted) BR/EDR Not Supported
+// (3) (inverted) BR/EDR Not Supported
 boolean legacySupported = flags.isLegacySupported();
 
-// Simultaneous LE and BR/EDR to Same Device Capable (Controller)
+// (4) Simultaneous LE and BR/EDR to Same Device Capable (Controller)
 boolean controllerSimultaneity = flags.isControllerSimultaneitySupported();
 
-// Simultaneous LE and BR/EDR to Same Device Capable (Host)
+// (5) Simultaneous LE and BR/EDR to Same Device Capable (Host)
 boolean hostSimultaneity = flags.isHostSimultaneitySupported();
 ```
 
-And the usage of `Ucode` class's methods. FYI: [ucode]
+
+#### ucode
+
+Below is the usage of `Ucode` class's methods. FYI: [ucode]
 (http://en.wikipedia.org/wiki/Ucode_system) is an identification number
 system that has officially been defined as "ITU-T H.642".
 
 ```java
 Ucode ucode = (Ucode)structure;
 
-// Version
+// (1) Version
 int version = ucode.getVersion();
 
-// Ucode (32 upper-case hex letters)
+// (2) Ucode (32 upper-case hex letters)
 String ucode = ucode.getUcode();
 
-// Status
+// (3) Status
 int status = ucode.getStatus();
 
-// The state of the battery
+// (4) The state of the battery
 boolean low = ucode.isBatteryLow();
 
-// Transmission interval
+// (5) Transmission interval
 int interval = ucode.getInterval();
 
-// Transmission power
+// (6) Transmission power
 int power = ucode.getPower();
 
-// Transmission count
+// (7) Transmission count
 int count = ucode.getCount();
 ```
+
+
+#### GATT status code
 
 This library contains some utility classes. `GattStatusCode` is an enum
 that represents result codes of GATT API (which are defined in `gatt_api.h`).
@@ -226,7 +323,10 @@ private static String stringifyGattStatus(int status)
 See Also
 --------
 
-* Assigned Numbers / [Generic Access Profile](https://www.bluetooth.org/en-us/specification/assigned-numbers/generic-access-profile)
+* Bluetooth: [Specification Adopted Documents](https://www.bluetooth.org/en-us/specification/adopted-specifications)
+* Bluetooth: Assigned Numbers / [Generic Access Profile](https://www.bluetooth.org/en-us/specification/assigned-numbers/generic-access-profile)
+* [Eddystone](https://github.com/google/eddystone)
+* [ucode](http://en.wikipedia.org/wiki/Ucode_system)
 
 
 Note

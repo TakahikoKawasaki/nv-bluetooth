@@ -63,21 +63,62 @@ public class ADPayloadParser
         // Builder for AD structures that contain a local name.
         LocalNameBuilder localNameBuilder = new LocalNameBuilder();
 
+        // Builder for AD structures for Service Data.
+        ServiceDataBuilder serviceDataBuilder = new ServiceDataBuilder();
+
         // Builders.
         mBuilders = new HashMap<Integer, List<ADStructureBuilder>>();
+
+        // 0x01: Flags
         registerBuilder(0x01, new FlagsBuilder());
+
+        // 0x02: Incomplete List of 16-bit Service Class UUIDs
         registerBuilder(0x02, uuidsBuilder);
+
+        // 0x03: Complete List of 16-bit Service Class UUIDs
         registerBuilder(0x03, uuidsBuilder);
+
+        // 0x04: Incomplete List of 32-bit Service Class UUIDs
         registerBuilder(0x04, uuidsBuilder);
+
+        // 0x05: Complete List of 32-bit Service Class UUIDs
         registerBuilder(0x05, uuidsBuilder);
+
+        // 0x06: Incomplete List of 128-bit Service Class UUIDs
         registerBuilder(0x06, uuidsBuilder);
+
+        // 0x07: Complete List of 128-bit Service Class UUIDs
         registerBuilder(0x07, uuidsBuilder);
+
+        // 0x08: Shortened Local Name
         registerBuilder(0x08, localNameBuilder);
+
+        // 0x09: Complete Local Name
         registerBuilder(0x09, localNameBuilder);
+
+        // 0x0A: Tx Power Level
         registerBuilder(0x0A, new TxPowerLevelBuilder());
+
+        // 0x14: List of 16-bit Service Solicitation UUIDs
         registerBuilder(0x14, uuidsBuilder);
+
+        // 0x15: List of 128-bit Service Solicitation UUIDs
         registerBuilder(0x15, uuidsBuilder);
+
+        // 0x16: Service Data - 16-bit UUID
+        registerBuilder(0x16, serviceDataBuilder);
+        registerBuilder(0x16, new EddystoneBuilder());
+
+        // 0x1F: List of 32-bit Service Solicitation UUIDs
         registerBuilder(0x1F, uuidsBuilder);
+
+        // 0x20: Service Data - 32-bit UUID
+        registerBuilder(0x20, serviceDataBuilder);
+
+        // 0x21: Service Data - 128-bit UUID
+        registerBuilder(0x21, serviceDataBuilder);
+
+        // 0xFF: Manufacturer Specific Data
         registerBuilder(0xFF, new MSBuilder());
     }
 
@@ -208,6 +249,7 @@ public class ADPayloadParser
      * Supported AD structures are as follows.
      * </p>
      *
+     * <blockquote>
      * <table border="1" cellpadding="5" style="border-collapse: collapse;">
      *   <thead>
      *     <tr>
@@ -263,9 +305,24 @@ public class ADPayloadParser
      *       <td>{@link UUIDs}</td>
      *     </tr>
      *     <tr>
+     *       <td><code>0x16</code></td>
+     *       <td>Service Data - 16-bit UUID</td>
+     *       <td>{@link ServiceData}</td>
+     *     </tr>
+     *     <tr>
      *       <td><code>0x1F</code></td>
      *       <td>List of 32-bit Service Solicitation UUIDs</td>
      *       <td>{@link UUIDs}</td>
+     *     </tr>
+     *     <tr>
+     *       <td><code>0x20</code></td>
+     *       <td>Service Data - 32-bit UUID</td>
+     *       <td>{@link ServiceData}</td>
+     *     </tr>
+     *     <tr>
+     *       <td><code>0x21</code></td>
+     *       <td>Service Data - 128-bit UUID</td>
+     *       <td>{@link ServiceData}</td>
      *     </tr>
      *     <tr>
      *       <td><code>0xFF</code></td>
@@ -274,12 +331,13 @@ public class ADPayloadParser
      *     </tr>
      *   </tbody>
      * </table>
+     * </blockquote>
      *
      * <p>
      * In addition, some specific Manufacturer Specific Data are supported.
      * </p>
      *
-     *
+     * <blockquote>
      * <table border="1" cellpadding="5" style="border-collapse: collapse;">
      *   <thead>
      *     <tr>
@@ -293,7 +351,7 @@ public class ADPayloadParser
      *   <tbody>
      *     <tr>
      *       <td><code>0xFF</code></td>
-     *       <td><code>0x004C</td>
+     *       <td><code>0x004C</code></td>
      *       <td>Apple, Inc.</td>
      *       <td>iBeacon</td>
      *       <td>{@link IBeacon}</td>
@@ -314,6 +372,7 @@ public class ADPayloadParser
      *     </tr>
      *   </tbody>
      * </table>
+     * </blockquote>
      *
      * <p>
      * {@link #registerBuilder(int, ADStructureBuilder) registerBuilder} and
@@ -321,6 +380,40 @@ public class ADPayloadParser
      * registerManufacturerSpecificBuilder} can be used to register your
      * customized parsers for AD structures.
      * </p>
+     *
+     * <p>
+     * {@link ServiceData} has subclasses. The table below lists the supported
+     * data formats.
+     * </p>
+     *
+     * <blockquote>
+     * <table border="1" cellpadding="5" style="border-collapse: collapse;">
+     *   <thead>
+     *     <tr>
+     *       <th>Service UUID</th>
+     *       <th>Format</th>
+     *       <th>Class</th>
+     *     </tr>
+     *   </thead>
+     *   <tbody>
+     *     <tr>
+     *       <td><code>0xFEAA</code> (<a href="https://github.com/google/eddystone">Eddystone</a>)</td>
+     *       <td><a href="https://github.com/google/eddystone/tree/master/eddystone-uid">Eddystone UID</a></td>
+     *       <td>{@link EddystoneUID}</td>
+     *     </tr>
+     *     <tr>
+     *       <td><code>0xFEAA</code> (<a href="https://github.com/google/eddystone">Eddystone</a>)</td>
+     *       <td><a href="https://github.com/google/eddystone/tree/master/eddystone-url">Eddystone URL</a></td>
+     *       <td>{@link EddystoneURL}</td>
+     *     </tr>
+     *     <tr>
+     *       <td><code>0xFEAA</code> (<a href="https://github.com/google/eddystone">Eddystone</a>)</td>
+     *       <td><a href="https://github.com/google/eddystone/tree/master/eddystone-tlm">Eddystone TLM</a></td>
+     *       <td>{@link EddystoneTLM}</td>
+     *     </tr>
+     *   </tbody>
+     * </table>
+     * </blockquote>
      *
      * @param payload
      *         A byte array containing of AD structures.

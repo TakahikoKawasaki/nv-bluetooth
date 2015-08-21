@@ -47,14 +47,6 @@ public class LocalName extends ADStructure
     }
 
 
-    public LocalName(int length, int type, byte[] data)
-    {
-        super(length, type, data);
-
-        parse(data);
-    }
-
-
     /**
      * Constructor.
      *
@@ -69,6 +61,14 @@ public class LocalName extends ADStructure
      * @param data
      *         The AD data.
      */
+    public LocalName(int length, int type, byte[] data)
+    {
+        super(length, type, data);
+
+        parse(data);
+    }
+
+
     private void parse(byte[] data)
     {
         if (data == null || data.length < 1)
