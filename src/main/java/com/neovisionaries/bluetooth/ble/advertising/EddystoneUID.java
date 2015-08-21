@@ -137,7 +137,7 @@ public class EddystoneUID extends Eddystone
 
 
     /**
-     * Get the 10-byte namespace ID as a upper-case hex string.
+     * Get the 10-byte namespace ID as an upper-case hex string.
      *
      * @return
      *         The namespace ID.
@@ -171,7 +171,7 @@ public class EddystoneUID extends Eddystone
 
 
     /**
-     * Get the 6-byte instance ID as a upper-case hex string.
+     * Get the 6-byte instance ID as an upper-case hex string.
      *
      * @return
      *         The instance ID.
@@ -209,7 +209,7 @@ public class EddystoneUID extends Eddystone
 
 
     /**
-     * Get the 16-byte beacon ID as a upper-case hex string.
+     * Get the 16-byte beacon ID as an upper-case hex string.
      *
      * @return
      *         The beacon ID.
