@@ -73,7 +73,7 @@ Supported AD Types
  0x1F  | List of 32-bit Service Solicitation UUIDs      | `UUIDs`                   |
  0x20  | Service Data - 32-bit UUID                     | `ServiceData`             |
  0x21  | Service Data - 128-bit UUID                    | `ServiceData`             |
- 0xFF  | Manufacturer Specific Data                     | `ADManufacturereSpecific` |
+ 0xFF  | Manufacturer Specific Data                     | `ADManufacturerSpecific`  |
 
 The assigned numbers of AD types are listed in "[Generic Access Profile]
 (https://www.bluetooth.org/en-us/specification/assigned-numbers/generic-access-profile)"
