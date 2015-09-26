@@ -320,11 +320,95 @@ private static String stringifyGattStatus(int status)
 ```
 
 
+#### Support Your Own Format
+
+You may want to handle AD structures whose formats are not standard ones.
+
+This happens typically when your company makes beacons that emit special
+packets. In this case, as the first step, your company asks Bluetooth SIG
+to assign a new company ID for your company. Then, your company defines a
+special format as a kind of Manufacturer Specific Data. The assigned
+company ID is embedded in the format.
+
+An AD structure whose format is defined by a company looks like below.
+
+| Length | AD Type | Company ID |   Special Format  |
++:------:+:-------:+:----------:+:-----------------:+
+| 1 Byte | 1 Byte  |   2 Bytes  | (Length - 3) Bytes|
+
+
+The first byte holds the value of (the length of the AD structure - 1).
+The second byte represents the AD type of the AD structure. When an AD
+structure is defined by a company, its value is `0xFF`. This value means
+_Manufacturer Specific Data_ and you can find it listed at the bottom
+of the table in [Generic Access Profile]
+(https://www.bluetooth.org/en-us/specification/assigned-numbers/generic-access-profile)
+page.
+
+When AD Type is `0xFF`, the following two bytes represent a company ID.
+You can find the list of assigned company IDs in [Company Identifiers]
+(https://www.bluetooth.org/en-us/specification/assigned-numbers/company-identifiers)
+page. For example, `0x004C` represents Apple, Inc.
+
+The format of the remaining bytes after the company ID field is defined
+freely by the company. For example, iBeacon is a format defined by Apple.
+
+In any case, you can register a parser for your special format into
+`ADPayloadParser`. All you have to do is to implement a class that
+implements `ADManufacturerSpecificBuilder` interface and to register it
+by `ADPayloaderParser.registerManufacturerSpecificBuilder()`.
+
+The following code is a real example in nv-bluetooth. `UcodeBuilder`
+builds an instance of `Ucode` class from AD data (byte array). `Ucode`
+class itself is a subclass of `ADManufacturerSpecific` class.
+
+```java
+class UcodeBuilder implements ADManufacturerSpecificBuilder
+{
+    @Override
+    public ADManufacturerSpecific build(int length, int type, byte[] data, int companyId)
+    {
+        return Ucode.create(length, type, data, companyId);
+    }
+}
+```
+
+This builder can be registered as follows.
+
+```
+// Register UcodeBuilder for the company ID 0x019A (T-Engine Forum).
+ADPayloadParser.getInstance()
+    .registerManufacturerSpecificBuilder(0x019A, new UcodeBuilder());
+```
+
+After this, you can write a code like below.
+
+```java
+List<ADStructure> structures
+    = ADPayloadParser.getInstance().parse(payload);
+
+for (ADStructure structure : structures)
+{
+    // If the AD structure can be cast to Ucode.
+    if (structure instanceof Ucode)
+    {
+        Ucode ucode = (Ucode)structure;
+    }
+}
+```
+
+If you want to register a parser that is not for Manufacture Specific Data,
+implement `ADStructureBuilder` interface instead of `ADManufacturerSpecificBuilder`.
+See the implementation of `TxPowerLevelBuilder` and `TxPowerLevel` as they
+are the simplest examples.
+
+
 See Also
 --------
 
 * Bluetooth: [Specification Adopted Documents](https://www.bluetooth.org/en-us/specification/adopted-specifications)
 * Bluetooth: Assigned Numbers / [Generic Access Profile](https://www.bluetooth.org/en-us/specification/assigned-numbers/generic-access-profile)
+* Bluetooth: Assigned Numbers / [Company Identifiers](https://www.bluetooth.org/en-us/specification/assigned-numbers/company-identifiers)
 * [Eddystone](https://github.com/google/eddystone)
 * [ucode](http://en.wikipedia.org/wiki/Ucode_system)
 
