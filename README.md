@@ -333,8 +333,8 @@ company ID is embedded in the format.
 An AD structure whose format is defined by a company looks like below.
 
 | Length | AD Type | Company ID |   Special Format  |
-+:------:+:-------:+:----------:+:-----------------:+
-| 1 Byte | 1 Byte  |   2 Bytes  | (Length - 3) Bytes|
+|:------:|:-------:|:----------:|:-----------------:|
+| 1 byte | 1 byte  |   2 bytes  | (Length - 3) bytes|
 
 
 The first byte holds the value of (the length of the AD structure - 1).
@@ -375,8 +375,9 @@ class UcodeBuilder implements ADManufacturerSpecificBuilder
 
 This builder can be registered as follows.
 
-```
+```java
 // Register UcodeBuilder for the company ID 0x019A (T-Engine Forum).
+// (The equivalent is done in the constructor of ADPayloadParser, though.)
 ADPayloadParser.getInstance()
     .registerManufacturerSpecificBuilder(0x019A, new UcodeBuilder());
 ```
