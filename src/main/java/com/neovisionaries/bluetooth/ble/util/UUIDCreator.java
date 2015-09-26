@@ -297,15 +297,15 @@ public class UUIDCreator
         }
 
         String uuid = String.format(GENERIC_UUID_FORMAT,
-                data[offset +  0] & 0xFF, data[offset +  1] & 0xFF,
-                data[offset +  2] & 0xFF, data[offset +  3] & 0xFF,
-                data[offset +  4] & 0xFF, data[offset +  5] & 0xFF,
-                data[offset +  6] & 0xFF, data[offset +  7] & 0xFF,
-                data[offset +  8] & 0xFF, data[offset +  9] & 0xFF,
-                data[offset + 10] & 0xFF, data[offset + 11] & 0xFF,
-                data[offset + 12] & 0xFF, data[offset + 13] & 0xFF,
-                data[offset + 14] & 0xFF, data[offset + 15] & 0xFF);
-
+                data[offset + 15] & 0xFF, data[offset + 14] & 0xFF,
+                data[offset + 13] & 0xFF, data[offset + 12] & 0xFF,
+                data[offset + 11] & 0xFF, data[offset + 10] & 0xFF,
+                data[offset +  9] & 0xFF, data[offset +  8] & 0xFF,
+                data[offset +  7] & 0xFF, data[offset +  6] & 0xFF,
+                data[offset +  5] & 0xFF, data[offset +  4] & 0xFF,
+                data[offset +  3] & 0xFF, data[offset +  2] & 0xFF,
+                data[offset +  1] & 0xFF, data[offset +  0] & 0xFF);
+        
         return UUID.fromString(uuid);
     }
 }
