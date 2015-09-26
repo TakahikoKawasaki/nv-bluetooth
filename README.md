@@ -25,7 +25,7 @@ Maven
 <dependency>
     <groupId>com.neovisionaries</groupId>
     <artifactId>nv-bluetooth</artifactId>
-    <version>1.5</version>
+    <version>1.6</version>
 </dependency>
 ```
 
@@ -35,7 +35,7 @@ Gradle
 
 ```Gradle
 dependencies {
-    compile 'com.neovisionaries:nv-bluetooth:1.5'
+    compile 'com.neovisionaries:nv-bluetooth:1.6'
 }
 ```
 
