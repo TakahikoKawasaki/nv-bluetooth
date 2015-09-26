@@ -269,7 +269,7 @@ public class IBeacon extends ADManufacturerSpecific
 
     private UUID buildUUID(byte[] data)
     {
-        return UUIDCreator.from128(data, 4);
+        return UUIDCreator.from128(data, 4, false);
     }
 
 

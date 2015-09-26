@@ -92,14 +92,26 @@ public class UUIDCreator
      * Create a UUID instance from 16-bit UUID data.
      *
      * <pre style="padding: 0.5em; margin: 1em; border: 1px solid black;">
-     * // Prepare a byte array containing 32-bit UUID data (little endian).
+     * <span style="color: green;">// Prepare a byte array containing 32-bit UUID data (<b>little</b> endian).</span>
      * byte[] data = new byte[] { (byte)0xAB, (byte)0xCD };
      *
-     * // Create a UUID instance from the byte array.
-     * UUID uuid = UUIDCreator.{@link #from16(byte[], int, boolean) from16}(data, 0, true);
+     * <span style="color: green;">// Create a UUID instance from the byte array.</span>
+     * UUID uuid = UUIDCreator.{@link #from16(byte[], int, boolean) from16}(data, 0, <b>true</b>);
      *
-     * // uuid represents 0000cdab-0000-1000-8000-00805f9b34fb.
-     * </p>
+     * <span style="color: green;">// uuid represents 0000<b>cdab</b>-0000-1000-8000-00805f9b34fb.</span>
+     * </pre>
+     *
+     * <br/>
+     *
+     * <pre style="padding: 0.5em; margin: 1em; border: 1px solid black;">
+     * <span style="color: green;">// Prepare a byte array containing 32-bit UUID data (<b>big</b> endian).</span>
+     * byte[] data = new byte[] { (byte)0xCD, (byte)0xAB };
+     *
+     * <span style="color: green;">// Create a UUID instance from the byte array.</span>
+     * UUID uuid = UUIDCreator.{@link #from16(byte[], int, boolean) from16}(data, 0, <b>false</b>);
+     *
+     * <span style="color: green;">// uuid represents 0000<b>cdab</b>-0000-1000-8000-00805f9b34fb.</span>
+     * </pre>
      *
      * @param data
      *         A byte array containing 16-bit UUID data.
@@ -109,6 +121,7 @@ public class UUIDCreator
      *
      * @param littleEndian
      *         {@code true} if the 16-bit UUID data is stored in little endian.
+     *         {@code false} for big endian.
      *
      * @return
      *         A UUID instance. {@code null} is returned when {@code data}
@@ -186,14 +199,26 @@ public class UUIDCreator
      * Create a UUID instance from 32-bit UUID data.
      *
      * <pre style="padding: 0.5em; margin: 1em; border: 1px solid black;">
-     * // Prepare a byte array containing 32-bit UUID data (little endian).
+     * <span style="color: green;">// Prepare a byte array containing 32-bit UUID data (<b>little</b> endian).</span>
      * byte[] data = new byte[] { (byte)0x89, (byte)0xAB, (byte)0xCD, (byte)0xEF };
      *
-     * // Create a UUID instance from the byte array.
-     * UUID uuid = UUIDCreator.{@link #from32(byte[], int, boolean) from32}(data, 0, true);
+     * <span style="color: green;">// Create a UUID instance from the byte array.</span>
+     * UUID uuid = UUIDCreator.{@link #from32(byte[], int, boolean) from32}(data, 0, <b>true</b>);
      *
-     * // uuid represents efcdab89-0000-1000-8000-00805f9b34fb.
-     * </p>
+     * <span style="color: green;">// uuid represents <b>efcdab89</b>-0000-1000-8000-00805f9b34fb.</span>
+     * </pre>
+     *
+     * <br/>
+     *
+     * <pre style="padding: 0.5em; margin: 1em; border: 1px solid black;">
+     * <span style="color: green;">// Prepare a byte array containing 32-bit UUID data (<b>big</b> endian).</span>
+     * byte[] data = new byte[] { (byte)0xEF, (byte)0xCD, (byte)0xAB, (byte)0x89 };
+     *
+     * <span style="color: green;">// Create a UUID instance from the byte array.</span>
+     * UUID uuid = UUIDCreator.{@link #from32(byte[], int, boolean) from32}(data, 0, <b>false</b>);
+     *
+     * <span style="color: green;">// uuid represents <b>efcdab89</b>-0000-1000-8000-00805f9b34fb.</span>
+     * </pre>
      *
      * @param data
      *         A byte array containing 32-bit UUID data.
@@ -203,6 +228,7 @@ public class UUIDCreator
      *
      * @param littleEndian
      *         {@code true} if the 32-bit UUID data is stored in little endian.
+     *         {@code false} for big endian.
      *
      * @return
      *         A UUID instance. {@code null} is returned when {@code data}
@@ -243,10 +269,10 @@ public class UUIDCreator
 
 
     /**
-     * Create a UUID instance from 128-bit UUID data.
+     * Create a UUID instance from 128-bit UUID data (little endian).
      *
      * <p>
-     * This method is an alias of {@link #from128(byte[], int) from32(data, 0)}.
+     * This method is an alias of {@link #from128(byte[], int) from128(data, 0)}.
      * </p>
      *
      * @param data
@@ -263,21 +289,57 @@ public class UUIDCreator
 
 
     /**
+     * Create a UUID instance from 128-bit UUID data (little endian).
+     *
+     * <p>
+     * This method is an alias of {@link #from128(byte[], int, boolean) from128(data, 0, true)}.
+     * </p>
+     *
+     * @param data
+     *         A byte array containing 128-bit UUID data.
+     *
+     * @return
+     *         A UUID instance. {@code null} is returned when {@code data}
+     *         is {@code null} or {@code offset} is not valid.
+     */
+    public static UUID from128(byte[] data, int offset)
+    {
+        return from128(data, offset, true);
+    }
+
+
+    /**
      * Create a UUID instance from 128-bit UUID data.
      *
      * <pre style="padding: 0.5em; margin: 1em; border: 1px solid black;">
-     * // Prepare a byte array containing 128-bit UUID data (little endian).
+     * <span style="color: green;">// Prepare a byte array containing 128-bit UUID data (<b>little</b> endian).</span>
+     * byte[] data = new byte[] {
+     *     (byte)0x10, (byte)0x32, (byte)0x54, (byte)0x76,
+     *     (byte)0x98, (byte)0xBA, (byte)0xDC, (byte)0xFE,
+     *     (byte)0xEF, (byte)0xCD, (byte)0xAB, (byte)0x89,
+     *     (byte)0x67, (byte)0x45, (byte)0x23, (byte)0x01 };
+     *
+     * <span style="color: green;">// Create a UUID instance from the byte array.</span>
+     * UUID uuid = UUIDCreator.{@link #from128(byte[], int, boolean) from128}(data, 0, <b>true</b>);
+     *
+     * <span style="color: green;">// uuid represents 01234567-89ab-cdef-fedc-ba9876543210.</span>
+     * </pre>
+     *
+     * <br/>
+     *
+     * <pre style="padding: 0.5em; margin: 1em; border: 1px solid black;">
+     * <span style="color: green;">// Prepare a byte array containing 128-bit UUID data (<b>big</b> endian).</span>
      * byte[] data = new byte[] {
      *     (byte)0x01, (byte)0x23, (byte)0x45, (byte)0x67,
      *     (byte)0x89, (byte)0xAB, (byte)0xCD, (byte)0xEF,
      *     (byte)0xFE, (byte)0xDC, (byte)0xBA, (byte)0x98,
      *     (byte)0x76, (byte)0x54, (byte)0x32, (byte)0x10 };
      *
-     * // Create a UUID instance from the byte array.
-     * UUID uuid = UUIDCreator.{@link #from32(byte[], int, boolean) from32}(data, 0, true);
+     * <span style="color: green;">// Create a UUID instance from the byte array.</span>
+     * UUID uuid = UUIDCreator.{@link #from128(byte[], int, boolean) from128}(data, 0, <b>false</b>);
      *
-     * // uuid represents 01234567-89ab-cdef-fedc-ba9876543210.
-     * </p>
+     * <span style="color: green;">// uuid represents 01234567-89ab-cdef-fedc-ba9876543210.</span>
+     * </pre>
      *
      * @param data
      *         A byte array containing 128-bit UUID data.
@@ -288,15 +350,21 @@ public class UUIDCreator
      * @return
      *         A UUID instance. {@code null} is returned when {@code data}
      *         is {@code null} or {@code offset} is not valid.
+     *
+     * @since 1.6
      */
-    public static UUID from128(byte[] data, int offset)
+    public static UUID from128(byte[] data, int offset, boolean littleEndian)
     {
         if (data == null || offset < 0 || data.length <= (offset + 15) || (Integer.MAX_VALUE - 15) < offset)
         {
             return null;
         }
 
-        String uuid = String.format(GENERIC_UUID_FORMAT,
+        String uuid;
+
+        if (littleEndian)
+        {
+            uuid = String.format(GENERIC_UUID_FORMAT,
                 data[offset + 15] & 0xFF, data[offset + 14] & 0xFF,
                 data[offset + 13] & 0xFF, data[offset + 12] & 0xFF,
                 data[offset + 11] & 0xFF, data[offset + 10] & 0xFF,
@@ -305,7 +373,20 @@ public class UUIDCreator
                 data[offset +  5] & 0xFF, data[offset +  4] & 0xFF,
                 data[offset +  3] & 0xFF, data[offset +  2] & 0xFF,
                 data[offset +  1] & 0xFF, data[offset +  0] & 0xFF);
-        
+        }
+        else
+        {
+            uuid = String.format(GENERIC_UUID_FORMAT,
+                data[offset +  0] & 0xFF, data[offset +  1] & 0xFF,
+                data[offset +  2] & 0xFF, data[offset +  3] & 0xFF,
+                data[offset +  4] & 0xFF, data[offset +  5] & 0xFF,
+                data[offset +  6] & 0xFF, data[offset +  7] & 0xFF,
+                data[offset +  8] & 0xFF, data[offset +  9] & 0xFF,
+                data[offset + 10] & 0xFF, data[offset + 11] & 0xFF,
+                data[offset + 12] & 0xFF, data[offset + 13] & 0xFF,
+                data[offset + 14] & 0xFF, data[offset + 15] & 0xFF);
+        }
+
         return UUID.fromString(uuid);
     }
 }

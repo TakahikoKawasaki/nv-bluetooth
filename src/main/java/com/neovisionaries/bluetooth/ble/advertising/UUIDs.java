@@ -29,7 +29,7 @@ import java.util.UUID;
  * </p>
  *
  * <table border="1" cellpadding="5" style="border-collapse: collapse;">
- *   <thread>
+ *   <thead>
  *     <tr>
  *       <th>Data Type Value</th>
  *       <th>Data Type Name</th>

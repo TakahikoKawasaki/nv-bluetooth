@@ -31,7 +31,8 @@ import com.neovisionaries.bluetooth.ble.util.UUIDCreator;
  *
  * @since 1.5
  *
- * @see Supplement to the Bluetooth Core Specification Version 5, Part A, 1.11 Service Data
+ * @see <a href="https://www.bluetooth.org/en-us/specification/adopted-specifications"
+ *      >Supplement to the Bluetooth Core Specification Version 5, Part A, 1.11 Service Data</a>
  * @see <a href="https://www.bluetooth.org/en-us/specification/adopted-specifications"
  *      >Specification Adopted Documents (bluetooth.org)</a>
  */
