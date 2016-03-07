@@ -25,7 +25,7 @@ Maven
 <dependency>
     <groupId>com.neovisionaries</groupId>
     <artifactId>nv-bluetooth</artifactId>
-    <version>1.6</version>
+    <version>1.7</version>
 </dependency>
 ```
 
@@ -35,21 +35,21 @@ Gradle
 
 ```Gradle
 dependencies {
-    compile 'com.neovisionaries:nv-bluetooth:1.6'
+    compile 'com.neovisionaries:nv-bluetooth:1.7'
 }
 ```
 
 
-Source Download
----------------
+Source Code
+-----------
 
-    git clone https://github.com/TakahikoKawasaki/nv-bluetooth.git
+  <code>https://github.com/TakahikoKawasaki/nv-bluetooth</code>
 
 
 JavaDoc
 -------
 
-[JavaDoc of nv-bluetooth](http://TakahikoKawasaki.github.io/nv-bluetooth/)
+  <code>http://TakahikoKawasaki.github.io/nv-bluetooth/</code>
 
 
 Supported AD Types
@@ -414,12 +414,6 @@ See Also
 * [ucode](http://en.wikipedia.org/wiki/Ucode_system)
 
 
-Note
-----
-
-Not tested enough.
-
-
 TODO
 ----
 
@@ -430,4 +424,5 @@ TODO
 Author
 ------
 
-Takahiko Kawasaki, Neo Visionaries Inc.
+[Authlete, Inc.](https://www.authlete.com/) & Neo Visionaries Inc.<br/>
+Takahiko Kawasaki &lt;taka@authlete.com&gt;

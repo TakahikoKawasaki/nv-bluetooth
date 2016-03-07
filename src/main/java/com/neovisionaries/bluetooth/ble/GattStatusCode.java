@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 Neo Visionaries Inc.
+ * Copyright (C) 2015-2016 Neo Visionaries Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.neovisionaries.bluetooth.ble.util;
+package com.neovisionaries.bluetooth.ble;
 
 
 import java.util.HashMap;
@@ -28,6 +28,12 @@ import java.util.Map;
  * The {@code status} parameter in <a
  * href="http://developer.android.com/reference/android/bluetooth/BluetoothGattCallback.html"
  * >BluetoothGattCallback</a> class is one of the entries in this enum (probably).
+ * </p>
+ *
+ * <p>
+ * NOTE: This class was moved from {@code com.neovisionaries.bluetooth.ble.util}
+ * package to {@code com.neovisionaries.bluetooth.ble} package on the release of
+ * version 1.7.
  * </p>
  *
  * @since 1.1
