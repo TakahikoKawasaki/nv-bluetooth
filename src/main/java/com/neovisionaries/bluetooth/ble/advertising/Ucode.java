@@ -35,7 +35,7 @@ import java.util.regex.Pattern;
  *
  * @since 1.1
  *
- * @see <a href="file:///C:/Users/TakahikoKawasaki/Documents/Dev/doc/UID-00049-01.A0.01.pdf"
+ * @see <a href="http://www.uidcenter.org/ja/wp-content/themes/wp.vicuna/pdf/UID-00049-01.A0.01.pdf"
  *      >Packet Format Specification for Bluetooth LE ucode Marker [01.A0.01] (in Japanese)</a>
  * @see <a href="http://en.wikipedia.org/wiki/Ucode_system"
  *      >Ucode system</a>
