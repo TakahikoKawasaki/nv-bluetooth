@@ -25,7 +25,7 @@ Maven
 <dependency>
     <groupId>com.neovisionaries</groupId>
     <artifactId>nv-bluetooth</artifactId>
-    <version>1.7</version>
+    <version>1.8</version>
 </dependency>
 ```
 
@@ -35,7 +35,7 @@ Gradle
 
 ```Gradle
 dependencies {
-    compile 'com.neovisionaries:nv-bluetooth:1.7'
+    compile 'com.neovisionaries:nv-bluetooth:1.8'
 }
 ```
 
@@ -98,6 +98,7 @@ Supported Service Data
  0xFEAA (Eddystone) | Eddystone UID | `EddystoneUID`       |
  0xFEAA (Eddystone) | Eddystone URL | `EddystoneURL`       |
  0xFEAA (Eddystone) | Eddystone TLM | `EddystoneTLM`       |
+ 0xFEAA (Eddystone) | Eddystone EID | `EddystoneEID`       |
 
 
 Description
@@ -161,10 +162,11 @@ int power = iBeacon.getPower();
 
 #### Eddystone
 
-There are three `ADStructure` subclasses for [Eddystone](https://github.com/google/eddystone).
+There are four `ADStructure` subclasses for [Eddystone](https://github.com/google/eddystone).
 `EddystoneUID` class is for [Eddystone UID](https://github.com/google/eddystone/tree/master/eddystone-uid),
-`EddystoneURL` class is for [Eddystone URL](https://github.com/google/eddystone/tree/master/eddystone-url), and
-`EddystoneTLM` class is for [Eddystone TLM](https://github.com/google/eddystone/tree/master/eddystone-tlm).
+`EddystoneURL` class is for [Eddystone URL](https://github.com/google/eddystone/tree/master/eddystone-url),
+`EddystoneTLM` class is for [Eddystone TLM](https://github.com/google/eddystone/tree/master/eddystone-tlm), and
+`EddystoneEID` class is for [Eddystone EID](https://github.com/google/eddystone/tree/master/eddystone-eid).
 The exact inheritance tree is illustrated below.
 
 ```
@@ -177,6 +179,7 @@ ADStructure
               +-- EddystoneUID
               +-- EddystoneURL
               +-- EddystoneTLM
+              +-- EddystoneEID
 ```
 
 ```java
@@ -228,6 +231,18 @@ long count = es.getAdvertisementCount();
 
 // (5) Elapsed time in milliseconds since power-on or reboot.
 long elapsed = es.getElapsedTime();
+```
+
+```java
+// Eddystone EID
+EddystoneEID es = (EddystoneEID)structure;
+
+// (1) Calibrated Tx power at 0 m.
+int power = es.getTxPower();
+
+// (2) 8-byte EID
+byte[] eid = es.getEID();
+String eidAsString = es.getEIDAsString();
 ```
 
 
