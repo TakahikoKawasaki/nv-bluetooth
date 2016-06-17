@@ -129,7 +129,7 @@ public class EddystoneUID extends Eddystone
     {
         if (mNamespaceId == null)
         {
-            mNamespaceId = copyOfRange(getData(), 4, 14);
+            mNamespaceId = Bytes.copyOfRange(getData(), 4, 14);
         }
 
         return mNamespaceId;
@@ -163,7 +163,7 @@ public class EddystoneUID extends Eddystone
     {
         if (mInstanceId == null)
         {
-            mInstanceId = copyOfRange(getData(), 14, 20);
+            mInstanceId = Bytes.copyOfRange(getData(), 14, 20);
         }
 
         return mInstanceId;
@@ -201,7 +201,7 @@ public class EddystoneUID extends Eddystone
     {
         if (mBeaconId == null)
         {
-            mBeaconId = copyOfRange(getData(), 4, 20);
+            mBeaconId = Bytes.copyOfRange(getData(), 4, 20);
         }
 
         return mBeaconId;
@@ -222,23 +222,6 @@ public class EddystoneUID extends Eddystone
         }
 
         return mBeaconIdAsString;
-    }
-
-
-    private byte[] copyOfRange(byte[] source, int from, int to)
-    {
-        if (source == null || source.length < to)
-        {
-            return null;
-        }
-
-        int length = to - from;
-
-        byte[] destination = new byte[length];
-
-        System.arraycopy(source, from, destination, 0, length);
-
-        return destination;
     }
 
 

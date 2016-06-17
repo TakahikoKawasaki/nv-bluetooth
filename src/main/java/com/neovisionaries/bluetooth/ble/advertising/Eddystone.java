@@ -45,7 +45,14 @@ public abstract class Eddystone extends ServiceData
         /**
          * <a href="https://github.com/google/eddystone/tree/master/eddystone-tlm">Eddystone-TLM</a>.
          */
-        TLM
+        TLM,
+
+        /**
+         * <a href="https://github.com/google/eddystone/tree/master/eddystone-eid">Eddystone-EID</a>.
+         *
+         * @since 1.8
+         */
+        EID
     }
 
 

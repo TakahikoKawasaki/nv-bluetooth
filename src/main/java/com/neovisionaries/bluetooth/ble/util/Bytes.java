@@ -117,4 +117,51 @@ public class Bytes
 
         return new String(chars);
     }
+
+
+    /**
+     * Copy a range of a given byte array.
+     *
+     * @param source
+     *         A source byte array.
+     *
+     * @param from
+     *         The start index of the range in the source byte array (inclusive).
+     *
+     * @param to
+     *         The end index of the range in the source byte array (exclusive).
+     *
+     * @return
+     *         A copied byte array. {@code null} is returned if (1) {@code source}
+     *         is {@code null}, (2) {@code from} is negative, (3) {@code to} is
+     *         negative, (4) the copy length ({@code to - from}) is negative, or
+     *         (5) {@code from +} the copy length exceeds {@code source.length}.
+     *
+     * @since 1.8
+     */
+    public static byte[] copyOfRange(byte[] source, int from, int to)
+    {
+        if (source == null || from < 0 || to < 0)
+        {
+            return null;
+        }
+
+        int length = to - from;
+
+        if (length < 0)
+        {
+            return null;
+        }
+
+        if (source.length < from + length)
+        {
+            return null;
+        }
+
+        byte[] destination = new byte[length];
+
+        System.arraycopy(source, from, destination, 0, length);
+
+        return destination;
+    }
 }

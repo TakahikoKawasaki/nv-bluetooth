@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 Neo Visionaries Inc.
+ * Copyright (C) 2015-2016 Neo Visionaries Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -51,7 +51,7 @@ class EddystoneBuilder implements ADStructureBuilder
         //       UID        |        0000       |     0x00
         //       URL        |        0001       |     0x10
         //       TLM        |        0010       |     0x20
-        //       RESERVED   |        0011       |     0x30
+        //       EID        |        0011       |     0x30
         //       RESERVED   |        0100       |     0x40
         //
         //   The four low-order bits are reserved for future use and must be 0000.
@@ -73,6 +73,10 @@ class EddystoneBuilder implements ADStructureBuilder
             // Eddystone TLM
             case 0x20:
                 return new EddystoneTLM(length, type, data);
+
+            // Eddystone EID
+            case 0x30:
+                return new EddystoneEID(length, type, data);
 
             default:
                 return null;
