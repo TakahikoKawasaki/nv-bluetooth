@@ -16,6 +16,9 @@
 package com.neovisionaries.bluetooth.ble.advertising;
 
 
+import com.neovisionaries.bluetooth.ble.util.Bytes;
+
+import java.util.Arrays;
 import java.util.regex.Pattern;
 
 
@@ -49,8 +52,6 @@ public class Ucode extends ADManufacturerSpecific
     private static final int POWER_INDEX   = 20;
     private static final int COUNT_INDEX   = 21;
     private static final int LOW_BATTERY_BIT = 0x20;
-    private static final String UCODE_FORMAT
-        = "%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X";
     private static final String STRING_FORMAT
         = "ucode(Version=%d,Ucode=%s,Status=%d,BatteryLow=%s,Interval=%d,Power=%d,Count=%d)";
     private static final Pattern UCODE_PATTERN = Pattern.compile("^[0-9A-Fa-f]{32}$");
@@ -183,7 +184,7 @@ public class Ucode extends ADManufacturerSpecific
             throw new IllegalArgumentException("'ucode' is null.");
         }
 
-        if (UCODE_PATTERN.matcher(ucode).matches() == false)
+        if (!UCODE_PATTERN.matcher(ucode).matches())
         {
             throw new IllegalArgumentException("The format of 'ucode' is wrong: " + ucode);
         }
@@ -499,16 +500,7 @@ public class Ucode extends ADManufacturerSpecific
 
     private String buildUcode(byte[] data)
     {
-        // Ucode is packed in the little endian order.
-        return String.format(UCODE_FORMAT,
-            data[UCODE_INDEX + 15] & 0xFF, data[UCODE_INDEX + 14] & 0xFF,
-            data[UCODE_INDEX + 13] & 0xFF, data[UCODE_INDEX + 12] & 0xFF,
-            data[UCODE_INDEX + 11] & 0xFF, data[UCODE_INDEX + 10] & 0xFF,
-            data[UCODE_INDEX +  9] & 0xFF, data[UCODE_INDEX +  8] & 0xFF,
-            data[UCODE_INDEX +  7] & 0xFF, data[UCODE_INDEX +  6] & 0xFF,
-            data[UCODE_INDEX +  5] & 0xFF, data[UCODE_INDEX +  4] & 0xFF,
-            data[UCODE_INDEX +  3] & 0xFF, data[UCODE_INDEX +  2] & 0xFF,
-            data[UCODE_INDEX +  1] & 0xFF, data[UCODE_INDEX +  0] & 0xFF);
+        return Bytes.toLittleEndianHexString(Arrays.copyOfRange(data, 0, 16), true);
     }
 
 

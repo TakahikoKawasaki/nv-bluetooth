@@ -17,6 +17,7 @@ package com.neovisionaries.bluetooth.ble.advertising;
 
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -25,21 +26,12 @@ import java.util.List;
  */
 public class MSBuilder implements ADManufacturerSpecificBuilder
 {
-    private final List<ADManufacturerSpecificBuilder> mBuilders =
-        new ArrayList<ADManufacturerSpecificBuilder>();
-
-
-    public MSBuilder()
-    {
-    }
+    private final List<ADManufacturerSpecificBuilder> mBuilders = new ArrayList<>();
 
 
     public MSBuilder(ADManufacturerSpecificBuilder... builders)
     {
-        for (ADManufacturerSpecificBuilder builder : builders)
-        {
-            mBuilders.add(builder);
-        }
+        Collections.addAll(mBuilders, builders);
     }
 
 

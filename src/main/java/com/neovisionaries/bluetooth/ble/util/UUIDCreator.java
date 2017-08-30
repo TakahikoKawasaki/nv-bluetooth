@@ -16,6 +16,7 @@
 package com.neovisionaries.bluetooth.ble.util;
 
 
+import java.util.Arrays;
 import java.util.UUID;
 
 
@@ -29,14 +30,7 @@ public class UUIDCreator
     /**
      * Bluetooth Base UUID used to build a complete UUID from a 16-bit/32-bit UUID.
      */
-    private static final String BASE_UUID_FORMAT =
-        "%02x%02x%02x%02x-0000-1000-8000-00805f9b34fb";
-
-    /**
-     * Generic UUID format that can be parsed by UUID.fromString(String).
-     */
-    private static final String GENERIC_UUID_FORMAT =
-        "%02x%02x%02x%02x-%02x%02x-%02x%02x-%02x%02x-%02x%02x%02x%02x%02x%02x";
+    private static final byte[] BASE_UUID = Bytes.hexStringToByteArray("00001000800000805f9b34fb");
 
 
     private UUIDCreator()
@@ -134,20 +128,12 @@ public class UUIDCreator
             return null;
         }
 
-        int v2, v3;
-
+        byte[] uuidData = Arrays.copyOfRange(data, offset, offset + 2);
         if (littleEndian)
         {
-            v2 = data[offset + 1] & 0xFF;
-            v3 = data[offset + 0] & 0xFF;
+            Bytes.reverse(uuidData);
         }
-        else
-        {
-            v2 = data[offset + 0] & 0xFF;
-            v3 = data[offset + 1] & 0xFF;
-        }
-
-        return fromBase(0, 0, v2, v3);
+        return Bytes.toUUID(Bytes.concat(Bytes.concat(new byte[] { 0, 0 }, uuidData), BASE_UUID), false);
     }
 
 
@@ -241,30 +227,12 @@ public class UUIDCreator
             return null;
         }
 
-        int v0, v1, v2, v3;
-
+        byte[] uuidData = Arrays.copyOfRange(data, offset, offset + 4);
         if (littleEndian)
         {
-            v0 = data[offset + 3] & 0xFF;
-            v1 = data[offset + 2] & 0xFF;
-            v2 = data[offset + 1] & 0xFF;
-            v3 = data[offset + 0] & 0xFF;
+            Bytes.reverse(uuidData);
         }
-        else
-        {
-            v0 = data[offset + 0] & 0xFF;
-            v1 = data[offset + 1] & 0xFF;
-            v2 = data[offset + 2] & 0xFF;
-            v3 = data[offset + 3] & 0xFF;
-        }
-
-        return fromBase(v0, v1, v2, v3);
-    }
-
-
-    private static UUID fromBase(int v0, int v1, int v2, int v3)
-    {
-        return UUID.fromString(String.format(BASE_UUID_FORMAT, v0, v1, v2, v3));
+        return Bytes.toUUID(Bytes.concat(uuidData, BASE_UUID), false);
     }
 
 
@@ -360,33 +328,7 @@ public class UUIDCreator
             return null;
         }
 
-        String uuid;
-
-        if (littleEndian)
-        {
-            uuid = String.format(GENERIC_UUID_FORMAT,
-                data[offset + 15] & 0xFF, data[offset + 14] & 0xFF,
-                data[offset + 13] & 0xFF, data[offset + 12] & 0xFF,
-                data[offset + 11] & 0xFF, data[offset + 10] & 0xFF,
-                data[offset +  9] & 0xFF, data[offset +  8] & 0xFF,
-                data[offset +  7] & 0xFF, data[offset +  6] & 0xFF,
-                data[offset +  5] & 0xFF, data[offset +  4] & 0xFF,
-                data[offset +  3] & 0xFF, data[offset +  2] & 0xFF,
-                data[offset +  1] & 0xFF, data[offset +  0] & 0xFF);
-        }
-        else
-        {
-            uuid = String.format(GENERIC_UUID_FORMAT,
-                data[offset +  0] & 0xFF, data[offset +  1] & 0xFF,
-                data[offset +  2] & 0xFF, data[offset +  3] & 0xFF,
-                data[offset +  4] & 0xFF, data[offset +  5] & 0xFF,
-                data[offset +  6] & 0xFF, data[offset +  7] & 0xFF,
-                data[offset +  8] & 0xFF, data[offset +  9] & 0xFF,
-                data[offset + 10] & 0xFF, data[offset + 11] & 0xFF,
-                data[offset + 12] & 0xFF, data[offset + 13] & 0xFF,
-                data[offset + 14] & 0xFF, data[offset + 15] & 0xFF);
-        }
-
-        return UUID.fromString(uuid);
+        byte[] uuidData = Arrays.copyOfRange(data, offset, offset + 16);
+        return Bytes.toUUID(uuidData, littleEndian);
     }
 }

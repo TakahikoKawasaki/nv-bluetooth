@@ -16,8 +16,8 @@
 package com.neovisionaries.bluetooth.ble;
 
 
-import java.util.HashMap;
-import java.util.Map;
+import android.util.SparseArray;
+
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -276,22 +276,21 @@ public enum StandardGattService
      * >Weight Scale</a> (0x181D).
      */
     WEIGHT_SCALE("Weight Scale", "weight_scale", 0x181D);
-    ;
 
 
     private static final String SPECIFICATION_TYPE_PREFIX = "org.bluetooth.service.";
     private static final Pattern UUID_PATTERN =
             Pattern.compile("0000([0-9a-fA-F]{4})[-]?0000[-]?1000[-]?8000[-]?00805[fF]9[bB]34[fF][bB]");
-    private static final Map<Integer, StandardGattService> sNumberToInstanceMap;
+    private static final SparseArray<StandardGattService> sNumberToInstanceMap;
 
 
     static
     {
-        sNumberToInstanceMap = new HashMap<Integer, StandardGattService>();
+        sNumberToInstanceMap = new SparseArray<>();
 
         for (StandardGattService instance : values())
         {
-            sNumberToInstanceMap.put(Integer.valueOf(instance.getNumber()), instance);
+            sNumberToInstanceMap.put(instance.getNumber(), instance);
         }
     }
 
@@ -305,7 +304,7 @@ public enum StandardGattService
     /**
      * The private constructor.
      */
-    private StandardGattService(String name, String shortType, int number)
+    StandardGattService(String name, String shortType, int number)
     {
         mName      = name;
         mShortType = shortType;
@@ -390,7 +389,7 @@ public enum StandardGattService
      */
     public static StandardGattService getByNumber(int number)
     {
-        return sNumberToInstanceMap.get(Integer.valueOf(number));
+        return sNumberToInstanceMap.get(number);
     }
 
 
@@ -414,7 +413,7 @@ public enum StandardGattService
 
         Matcher matcher = UUID_PATTERN.matcher(uuid);
 
-        if (matcher.matches() == false)
+        if (!matcher.matches())
         {
             return null;
         }
