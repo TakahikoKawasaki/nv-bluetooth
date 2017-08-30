@@ -16,11 +16,11 @@
 package com.neovisionaries.bluetooth.ble.advertising;
 
 
+import android.util.SparseArray;
+
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 
 /**
@@ -45,14 +45,14 @@ public class ADPayloadParser
     private static final ADPayloadParser sInstance = new ADPayloadParser();
 
 
-    private final Map<Integer, List<ADStructureBuilder>> mBuilders;
-    private final Map<Integer, List<ADManufacturerSpecificBuilder>> mMSBuilders;
+    private final SparseArray<List<ADStructureBuilder>> mBuilders;
+    private final SparseArray<List<ADManufacturerSpecificBuilder>> mMSBuilders;
 
 
     private ADPayloadParser()
     {
         // Builders for Manufacturer Specific Data.
-        mMSBuilders = new HashMap<Integer, List<ADManufacturerSpecificBuilder>>();
+        mMSBuilders = new SparseArray<>();
         registerManufacturerSpecificBuilder(0x004C, new MS004CBuilder());
         registerManufacturerSpecificBuilder(0x0105, new MS0105Builder());
         registerManufacturerSpecificBuilder(0x019A, new MS019ABuilder());
@@ -67,7 +67,7 @@ public class ADPayloadParser
         ServiceDataBuilder serviceDataBuilder = new ServiceDataBuilder();
 
         // Builders.
-        mBuilders = new HashMap<Integer, List<ADStructureBuilder>>();
+        mBuilders = new SparseArray<>();
 
         // 0x01: Flags
         registerBuilder(0x01, new FlagsBuilder());
@@ -163,7 +163,7 @@ public class ADPayloadParser
         }
 
         // Use the AD type as the key for the builder.
-        Integer key = Integer.valueOf(type);
+        Integer key = type;
 
         // Get the existing list of builders for the AD type.
         List<ADStructureBuilder> builders = mBuilders.get(key);
@@ -171,7 +171,7 @@ public class ADPayloadParser
         // If no builder has been registered for the AD type yet.
         if (builders == null)
         {
-            builders = new ArrayList<ADStructureBuilder>();
+            builders = new ArrayList<>();
             mBuilders.put(key, builders);
         }
 
@@ -204,7 +204,7 @@ public class ADPayloadParser
         }
 
         // Use the company ID as the key for the builder.
-        Integer key = Integer.valueOf(companyId);
+        Integer key = companyId;
 
         // Get the existing list of builders for the company ID.
         List<ADManufacturerSpecificBuilder> builders = mMSBuilders.get(key);
@@ -212,7 +212,7 @@ public class ADPayloadParser
         // If no builder has been registered for the company ID yet.
         if (builders == null)
         {
-            builders = new ArrayList<ADManufacturerSpecificBuilder>();
+            builders = new ArrayList<>();
             mMSBuilders.put(key, builders);
         }
 
@@ -436,7 +436,7 @@ public class ADPayloadParser
         }
 
         // List of AD structures.
-        List<ADStructure> list = new ArrayList<ADStructure>();
+        List<ADStructure> list = new ArrayList<>();
 
         // If parameters are wrong.
         if (offset < 0 || length < 0 || payload.length <= offset)
@@ -498,7 +498,7 @@ public class ADPayloadParser
     private ADStructure buildAds(int length, int type, byte[] data)
     {
         // Get the list of builders for the AD type.
-        List<ADStructureBuilder> builders = mBuilders.get(Integer.valueOf(type));
+        List<ADStructureBuilder> builders = mBuilders.get(type);
 
         // If builders for the AD type does not exist.
         if (builders == null)
@@ -540,7 +540,7 @@ public class ADPayloadParser
             int companyId = ((data[1] & 0xFF) << 8) | (data[0] & 0xFF);
 
             // Get the list of builders for the company ID.
-            List<ADManufacturerSpecificBuilder> builders = mMSBuilders.get(Integer.valueOf(companyId));
+            List<ADManufacturerSpecificBuilder> builders = mMSBuilders.get(companyId);
 
             // If builders for the company ID does not exist.
             if (builders == null)

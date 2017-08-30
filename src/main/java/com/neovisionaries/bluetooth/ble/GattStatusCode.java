@@ -16,8 +16,7 @@
 package com.neovisionaries.bluetooth.ble;
 
 
-import java.util.HashMap;
-import java.util.Map;
+import android.util.SparseArray;
 
 
 /**
@@ -267,22 +266,22 @@ public enum GattStatusCode
     ;
 
 
-    private static final Map<Integer, GattStatusCode> sValueToCodeMap;
+    private static final SparseArray<GattStatusCode> sValueToCodeMap;
     private final int mValue;
 
 
     static
     {
-        sValueToCodeMap = new HashMap<Integer, GattStatusCode>();
+        sValueToCodeMap = new SparseArray<>();
 
         for (GattStatusCode code : values())
         {
-            sValueToCodeMap.put(Integer.valueOf(code.getValue()), code);
+            sValueToCodeMap.put(code.getValue(), code);
         }
     }
 
 
-    private GattStatusCode(int value)
+    GattStatusCode(int value)
     {
         mValue = value;
     }
@@ -311,6 +310,6 @@ public enum GattStatusCode
      */
     public static GattStatusCode getByValue(int value)
     {
-        return sValueToCodeMap.get(Integer.valueOf(value));
+        return sValueToCodeMap.get(value);
     }
 }

@@ -127,7 +127,7 @@ public class IBeacon extends ADManufacturerSpecific
         long lsbits = uuid.getLeastSignificantBits();
 
         byte[] data = getData();
-        data[UUID_INDEX +  0] = (byte)((msbits >> 56) & 0xFF);
+        data[UUID_INDEX] = (byte)((msbits >> 56) & 0xFF);
         data[UUID_INDEX +  1] = (byte)((msbits >> 48) & 0xFF);
         data[UUID_INDEX +  2] = (byte)((msbits >> 40) & 0xFF);
         data[UUID_INDEX +  3] = (byte)((msbits >> 32) & 0xFF);
@@ -142,7 +142,7 @@ public class IBeacon extends ADManufacturerSpecific
         data[UUID_INDEX + 12] = (byte)((lsbits >> 24) & 0xFF);
         data[UUID_INDEX + 13] = (byte)((lsbits >> 16) & 0xFF);
         data[UUID_INDEX + 14] = (byte)((lsbits >>  8) & 0xFF);
-        data[UUID_INDEX + 15] = (byte)((lsbits >>  0) & 0xFF);
+        data[UUID_INDEX + 15] = (byte)((lsbits) & 0xFF);
     }
 
 
