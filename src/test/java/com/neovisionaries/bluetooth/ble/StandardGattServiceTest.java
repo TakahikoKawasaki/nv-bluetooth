@@ -27,8 +27,16 @@ import static com.neovisionaries.bluetooth.ble.StandardGattService.getByUuid;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
+
+import java.util.List;
 import java.util.UUID;
+
+import com.neovisionaries.bluetooth.ble.advertising.ADPayloadParser;
+import com.neovisionaries.bluetooth.ble.advertising.ADStructure;
+import com.neovisionaries.bluetooth.ble.advertising.LocalName;
 import org.junit.Test;
+
+import javax.xml.bind.DatatypeConverter;
 
 
 public class StandardGattServiceTest
@@ -51,6 +59,18 @@ public class StandardGattServiceTest
         compareInstances(expected, getByUuid(uuid));
     }
 
+    private String nameFromScanRecord(String hex)
+    {
+        byte[] scanRecord = DatatypeConverter.parseHexBinary(hex);
+        List<ADStructure> structures = ADPayloadParser.getInstance().parse(scanRecord);
+        for (ADStructure structure : structures) {
+            if (structure instanceof LocalName) {
+                LocalName name = (LocalName) structure;
+                return name.getLocalName();
+            }
+        }
+        return null;
+    }
 
     private void uuidTest(UUID uuid, StandardGattService expected)
     {
@@ -125,5 +145,13 @@ public class StandardGattServiceTest
     public void test10()
     {
         uuidTest(UUID.fromString("0000181F-0000-1000-8000-00805f9b34fb"), CONTINUOUS_GLUCOSE_MONITORING);
+    }
+
+    @Test
+    public void test11()
+    {
+        // test extracting a name with a null terminated string
+        // "Name" = 4E616D65
+        assertEquals("Name", nameFromScanRecord("020102020A0C0319800006094E616D6500000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"));
     }
 }
