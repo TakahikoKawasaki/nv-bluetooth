@@ -16,6 +16,7 @@
 package com.neovisionaries.bluetooth.ble.util;
 
 
+
 /**
  * Utility for byte arrays.
  *
@@ -163,5 +164,35 @@ public class Bytes
         System.arraycopy(source, from, destination, 0, length);
 
         return destination;
+    }
+
+    /**
+     * Remove trailing nulls from a byte array.
+     *
+     * @param data
+     *         An input byte array.
+
+     * @return
+     *         A byte array with any trailing null bytes removed.
+     */
+    public static byte[] removeTrailingNulls(byte[] data)
+    {
+        int length = lengthWithoutNulls(data);
+        byte[] result = new byte[length];
+
+        System.arraycopy(data, 0, result, 0, length);
+
+        return result;
+    }
+
+    private static int lengthWithoutNulls(byte[] data) {
+        if (data == null || data.length == 0)
+            return 0;
+
+        for (int i = 0; i < data.length; i++)
+            if (data[i] == '\0')
+                return i;
+
+        return data.length;
     }
 }

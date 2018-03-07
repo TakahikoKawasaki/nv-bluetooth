@@ -18,6 +18,8 @@ package com.neovisionaries.bluetooth.ble.advertising;
 
 import java.io.UnsupportedEncodingException;
 
+import static com.neovisionaries.bluetooth.ble.util.Bytes.removeTrailingNulls;
+
 
 /**
  * An AD structure of type "Shortened Local Name" (type = 0x08)
@@ -71,14 +73,16 @@ public class LocalName extends ADStructure
 
     private void parse(byte[] data)
     {
-        if (data == null || data.length < 1)
+        byte[] dataStr = removeTrailingNulls(data);
+
+        if (dataStr == null || dataStr.length < 1)
         {
             return;
         }
 
         try
         {
-            mLocalName = new String(data, "UTF-8");
+            mLocalName = new String(dataStr, "UTF-8");
         }
         catch (UnsupportedEncodingException e)
         {
